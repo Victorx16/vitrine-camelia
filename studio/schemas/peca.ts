@@ -166,9 +166,34 @@ export const peca = defineType({
       title: "Cores",
       type: "array",
       group: "essencial",
+      description:
+        "As mais comuns, para marcar num toque. Se a cor da peça não estiver aqui, deixe em branco e escreva no campo abaixo.",
       of: [defineArrayMember({ type: "string" })],
       options: { list: comoLista(CORES) },
-      validation: (regra) => regra.required().min(1),
+      /**
+       * Não é mais obrigatório sozinho.
+       *
+       * Era, e isso criava um beco: peça amarela, nenhum "amarelo" na lista, e
+       * o formulário se recusando a salvar. A regra agora é "pelo menos uma
+       * das duas" — e ela vive aqui, no campo de cima, porque é onde a pessoa
+       * está olhando quando o problema aparece.
+       */
+      validation: (regra) =>
+        regra.custom((cores, contexto) => {
+          const outra = (contexto.document?.outraCor as string | undefined)?.trim();
+          if ((cores?.length ?? 0) > 0 || outra) return true;
+          return "Marque uma cor na lista, ou escreva a cor em “Outra cor”.";
+        }),
+    }),
+
+    defineField({
+      name: "outraCor",
+      title: "Outra cor",
+      type: "string",
+      group: "essencial",
+      description:
+        "Só quando a cor não estiver na lista acima. Escreva como você falaria para uma cliente: “lilás”, “amarelo-queimado”, “xadrez vichy”.",
+      validation: (regra) => regra.max(40),
     }),
 
     defineField({

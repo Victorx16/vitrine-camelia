@@ -101,10 +101,31 @@ mão e cliente esperando.
 desconto e é a primeira coisa a envelhecer errado), `marca`, `sku`, `peso`, tags
 livres.
 
-**Listas fechadas** para `categoria`, `tamanhos` e `cores`. Texto livre produz
-"blusa", "Blusa", "blusinha" e "blusa " no mesmo catálogo em três meses, e
-qualquer agrupamento morre junto. No painel vira lista para escolher, que também
-é mais rápido no celular do que digitar.
+**Listas fechadas** para `categoria` e `tamanhos`. Texto livre produz "blusa",
+"Blusa", "blusinha" e "blusa " no mesmo catálogo em três meses, e qualquer
+agrupamento morre junto. No painel vira lista para escolher, que também é mais
+rápido no celular do que digitar.
+
+**`cores` era fechada também, e a cerca teve de cair.** O argumento contra veio
+de fora, do Victor, ao abrir o painel no celular: a lista de dezoito cores foi
+escrita olhando as vinte fotos de demonstração, e a peça seguinte pode ser
+lilás. O beco era este: peça na mão, nenhuma cor que sirva, e o formulário se
+recusando a salvar. Desistir de cadastrar a peça ou mentir a cor são os dois
+desfechos, e nenhum é aceitável.
+
+A lista continua, porque marcar é mais rápido que digitar e resolve quase
+sempre. Ao lado dela entrou **"Outra cor"**, texto livre, e a obrigatoriedade
+virou "pelo menos uma das duas".
+
+Custa pouco porque **`cores` só vira texto**: a ficha, a linha do cartão, o
+cartão de compartilhamento e o `alt` da foto. Não há filtro por cor nem amostra
+colorida. Se houvesse, texto livre fragmentaria o filtro e a decisão seria
+outra — é essa a régua, não "abrir é sempre melhor".
+
+A junção acontece em `paraPeca`, na fronteira dos dados: do lado do site, cor é
+uma lista só. Ter vindo de uma caixa de texto ou de uma de seleção é assunto do
+formulário, e vazar isso para `Peca` obrigaria as cinco telas que mostram cor a
+lembrar da distinção.
 
 **`tamanhos` mistura letra e número** (`P M G GG U` e `36`–`46`). A loja vende
 vestido em letra e jeans em número, e obrigar os dois a caber num sistema só

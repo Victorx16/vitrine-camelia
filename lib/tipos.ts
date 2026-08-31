@@ -58,7 +58,7 @@ export type Tamanho =
  * mais honesto, custa um toque e é o vocabulário que ela já usa no balcão —
  * incluindo "estampado" e "listrado", que não são cor mas é como se fala.
  */
-export type Cor =
+export type CorConhecida =
   | "preto"
   | "off-white"
   | "cru"
@@ -77,6 +77,23 @@ export type Cor =
   | "mostarda"
   | "estampado"
   | "listrado";
+
+/**
+ * A lista acima é sugestão, não cerca.
+ *
+ * Ela tem a peça na mão. Se a cor for lilás e lilás não estiver na lista, a
+ * alternativa a aceitar texto livre é ela desistir de cadastrar a peça ou
+ * mentir a cor — e nenhuma das duas é aceitável por uma lista que eu escrevi
+ * olhando vinte fotos.
+ *
+ * Custa pouco porque `cores` só vira TEXTO no site: a ficha, a linha do cartão,
+ * o cartão de compartilhamento e o alt da foto. Não existe filtro por cor nem
+ * amostra colorida — se existisse, texto livre fragmentaria o filtro e esta
+ * decisão seria outra.
+ *
+ * O `& {}` preserva o autocompletar dos nomes conhecidos sem fechar o tipo.
+ */
+export type Cor = CorConhecida | (string & {});
 
 export type Situacao = "disponivel" | "esgotada";
 

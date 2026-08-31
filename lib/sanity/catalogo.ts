@@ -61,6 +61,7 @@ const CONSULTA = `*[_type == "peca" && !(_id in path("drafts.**"))]{
   categoria,
   tamanhos,
   cores,
+  outraCor,
   tecido,
   medidas,
   descricao,
@@ -73,15 +74,30 @@ const CONSULTA = `*[_type == "peca" && !(_id in path("drafts.**"))]{
 /** O que a consulta devolve, antes de virar `Peca`. */
 interface PecaCrua extends Omit<Peca, "fotos" | "destaque"> {
   destaque: boolean | null;
+  /**
+   * O escape da lista fechada de cores, e ele NÃO existe em `Peca`.
+   *
+   * Do lado do site, cor é uma lista só. Que uma delas tenha vindo de uma
+   * caixa de texto e as outras de caixas de seleção é assunto do formulário,
+   * não da vitrine — e vazar essa distinção para `Peca` obrigaria as cinco
+   * telas que mostram cor a lembrar dela. Some aqui, em `paraPeca`.
+   */
+  outraCor: string | null;
   fotos: { alt?: string; asset: { _ref: string } }[];
 }
 
-function paraPeca(crua: PecaCrua): Peca {
+function paraPeca({ outraCor, ...crua }: PecaCrua): Peca {
+  const escrita = outraCor?.trim();
+
   return {
     ...crua,
     // `destaque` é booleano opcional no painel: uma peça cadastrada sem tocar
     // no campo chega como null, e null não é false para o filtro da vitrine.
     destaque: crua.destaque === true,
+    // A cor escrita à mão entra por último: quando ela marcou "preto" e ainda
+    // escreveu "com detalhe dourado", a ordem em que ela preencheu é a ordem
+    // em que se lê.
+    cores: escrita ? [...crua.cores, escrita] : crua.cores,
     fotos: crua.fotos.map((foto) => ({
       src: urlDaFoto(foto),
       alt: foto.alt,
