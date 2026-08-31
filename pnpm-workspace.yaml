@@ -1,0 +1,7 @@
+# `unrs-resolver` traz um binário nativo que o eslint-import-resolver usa como
+# atalho. Ele é opcional: sem o binário a resolução cai para a implementação em
+# JavaScript e o lint continua funcionando. Mantê-lo em `false` evita que uma
+# instalação limpa — na Netlify, por exemplo — pare esperando aprovação de
+# script, que é o que quebrou o primeiro build aqui.
+allowBuilds:
+  unrs-resolver: false

@@ -1,0 +1,202 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Camélia — direção de arte "Linho e Musgo"
+   --------------------------------------------------------------------------
+   O fundo é mais escuro que branco por um motivo prático, não estético:
+   metade do que uma boutique vende é branco, cru ou off-white, e em fundo
+   branco blusa branca some. O linho é um greige puxado para o verde — o mesmo
+   lado do círculo em que fica o acento — e é ele que dá contorno à peça clara
+   sem precisar de borda.
+
+   Regras da direção:
+   · Não existe cartão. A foto é o cartão. Sem sombra, sem raio, sem borda.
+   · Hierarquia por fio de 1px e por espaço.
+   · Musgo é acento reservado: novidade, foco e superfície de rodapé.
+   · Peça esgotada não recebe cor. Cor é o que está disponível.
+
+   Modo claro só. Este site não tem tema escuro e isso é decisão, não omissão:
+   a percepção da cor do tecido muda com o fundo, e a cliente decide compra
+   olhando para a cor.
+   ========================================================================== */
+
+@theme inline {
+  /* --- Cor -------------------------------------------------------------- */
+  --color-linho: var(--linho);
+  --color-papel: var(--papel);
+  --color-tinta: var(--tinta);
+  --color-musgo: var(--musgo);
+  --color-sepia: var(--sepia);
+  --color-fio: var(--fio);
+
+  /* Nomes semânticos sobre a paleta. Componente usa estes, nunca os de cima. */
+  --color-background: var(--linho);
+  --color-foreground: var(--tinta);
+  --color-surface: var(--papel);
+  --color-primary: var(--tinta);
+  --color-primary-foreground: var(--linho);
+  --color-accent: var(--musgo);
+  --color-accent-foreground: var(--linho);
+  --color-muted-foreground: var(--sepia);
+  --color-border: var(--fio);
+  --color-ring: var(--musgo);
+
+  /* --- Tipografia -------------------------------------------------------
+     Fraunces: serifada variável. Fica ligado só o eixo SOFT, que arredonda os
+     terminais e tira o bico frio de vitrine de shopping. O eixo WONK, que
+     entorta a perna do g e do y, fica em zero — e por isso não é carregado.
+     Karla: corpo de texto E etiqueta. Em caixa alta com entreletra aberta ela
+     faz o papel de tag de cabide, o que evita uma terceira família. */
+  --font-display: var(--font-fraunces), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-karla), ui-sans-serif, system-ui, sans-serif;
+
+  --text-display: clamp(2.5rem, 7.5vw, 4.75rem);
+  --text-display--line-height: 0.96;
+  --text-display--letter-spacing: -0.022em;
+  --text-display--font-weight: 600;
+
+  --text-headline: clamp(1.7rem, 3.4vw, 2.4rem);
+  --text-headline--line-height: 1.06;
+  --text-headline--letter-spacing: -0.015em;
+  --text-headline--font-weight: 500;
+
+  /* Nome da peça na arara. Preço usa o mesmo corpo, na mesma linha. */
+  --text-peca: clamp(1.0625rem, 1.5vw, 1.3rem);
+  --text-peca--line-height: 1.15;
+  --text-peca--letter-spacing: -0.01em;
+
+  /* Etiqueta de cabide: Karla, caixa alta, entreletra aberta. */
+  --text-rotulo: 0.6875rem;
+  --text-rotulo--line-height: 1.45;
+  --text-rotulo--letter-spacing: 0.19em;
+  --text-rotulo--font-weight: 600;
+
+  --text-rotulo-sm: 0.5625rem;
+  --text-rotulo-sm--line-height: 1.4;
+  --text-rotulo-sm--letter-spacing: 0.16em;
+  --text-rotulo-sm--font-weight: 600;
+
+  /* --- Raio -------------------------------------------------------------
+     Zero em toda a escala, de propósito. Deixá-los declarados aqui neutraliza
+     qualquer `rounded-*` que entre por descuido, sem caçar arquivo por arquivo.
+     Exceção única: o botão de foco, que continua retangular. */
+  --radius: 0px;
+  --radius-sm: 0px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
+  --radius-2xl: 0px;
+  --radius-3xl: 0px;
+
+  /* --- Movimento --------------------------------------------------------
+     Uma curva só para o site inteiro. Saída rápida, chegada macia. */
+  --ease-vitrine: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+:root {
+  /* --- Paleta -----------------------------------------------------------
+     Contrastes medidos com scripts/contrast.mjs, não estimados:
+       tinta / linho .......... 14,74:1  AAA
+       musgo / linho ........... 8,04:1  AAA
+       sepia / linho ........... 5,59:1  AA
+       sepia / papel ........... 6,07:1  AA
+       linho / tinta .......... 14,74:1  AAA  (texto do botão)
+       linho / musgo ........... 8,04:1  AAA  (texto do rodapé)
+
+     `sepia` nasceu em #67655A e dava 4,72:1 — passava raspando. Ele veste os
+     rótulos de 11px em caixa alta (grade, data, categoria), que NÃO contam
+     como texto grande e precisam dos 4,5:1 cheios com folga para sobreviver a
+     tela ruim. Foi escurecido até passar nas duas superfícies.
+
+     `fio` é o único tom que não passa em contraste, e não precisa: ele é
+     filete decorativo de 1px e nunca carrega texto nem estado. Onde uma linha
+     precisar significar alguma coisa, ela é `tinta`. */
+  --linho: #e8e7df;
+  --papel: #f1f0ea;
+  --tinta: #16150f;
+  --musgo: #3a4634;
+  --sepia: #5c5a4f;
+  --fio: #c9c6b6;
+}
+
+@layer base {
+  * {
+    @apply border-fio;
+  }
+
+  html {
+    @apply font-sans;
+    scroll-padding-top: 5rem;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    @apply font-display;
+    /* SOFT arredonda os terminais; WONK fica em zero e nem é carregado. */
+    font-variation-settings: "SOFT" 60;
+    text-wrap: balance;
+  }
+
+  /* Preço, grade e medida alinham em coluna. Numeral de larguras diferentes
+     faz a coluna de preço tremer ao rolar uma arara de sessenta peças. */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* O anel de foco é a única aparição do musgo fora da marca de novidade.
+     Fino, quadrado e afastado — coerente com o resto, e impossível de perder. */
+  :focus-visible {
+    outline: 2px solid var(--musgo);
+    outline-offset: 3px;
+  }
+}
+
+/* ==========================================================================
+   Revelação por scroll, em CSS e sem script.
+   --------------------------------------------------------------------------
+   Mesma regra do site do estúdio, e aqui ela pesa mais: o conteúdo NASCE
+   VISÍVEL, e o estado escondido só existe dentro de `@media (scripting:
+   enabled)`. Numa página que é catálogo, uma falha de script não pode
+   significar uma vitrine vazia — o texto e o preço têm que chegar mesmo que
+   nada mais chegue.
+
+   Tudo é transição comandada por atributo, nunca @keyframes com atraso: com
+   transição, `[data-revelado]` já é o estado computado, e se a transição não
+   rodar o conteúdo simplesmente aparece.
+   ========================================================================== */
+
+@media (scripting: enabled) {
+  [data-revela] {
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+      opacity 0.5s var(--ease-vitrine),
+      transform 0.5s var(--ease-vitrine);
+  }
+
+  [data-revela][data-revelado] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Peças da mesma arara entram em cascata curta. O atraso é por índice, posto
+     em estilo em linha pelo componente — 45ms é o bastante para ler como
+     sequência sem virar espera. */
+  [data-revela][style*="--atraso"] {
+    transition-delay: var(--atraso);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-revela] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}

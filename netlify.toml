@@ -1,0 +1,93 @@
+# Configuração de publicação no Netlify.
+#
+# O site é exportado como HTML estático (`output: "export"` no next.config.ts),
+# então o Netlify não precisa de plugin nem de runtime do Next: ele roda o build
+# e serve a pasta `out/` a partir da CDN.
+
+[build]
+  command = "pnpm build"
+  publish = "out"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# ---------------------------------------------------------------------------
+# Build agendado — é ele que faz o tempo passar.
+#
+# Site exportado não tem relógio: depois de publicado, "chegou essa semana"
+# continua dizendo essa semana para sempre. As regras de vencimento em
+# lib/peca.ts são calculadas no build, e sem alguém disparando um build por dia
+# elas nunca vencem.
+#
+# Esta função não faz nada além de bater no build hook do próprio site. A URL do
+# hook é segredo e vive na variável BUILD_HOOK_URL, configurada no painel do
+# Netlify — nunca neste arquivo, que vai para o repositório.
+#
+# 8h UTC = 5h em São Paulo: o site se refaz antes de a loja abrir.
+# ---------------------------------------------------------------------------
+[functions."vencimento-diario"]
+  schedule = "0 8 * * *"
+
+# ---------------------------------------------------------------------------
+# Cabeçalhos de segurança.
+#
+# Num site exportado não existe servidor Next, então os cabeçalhos de
+# next.config.ts não são aplicados em produção. Aqui é a fonte da verdade.
+#
+# 'unsafe-eval' NÃO aparece aqui, ao contrário do que vale em desenvolvimento:
+# eval() só é usado pelo Fast Refresh.
+#
+# Os dois domínios da Cloudflare são a contagem de visita, e são os ÚNICOS
+# terceiros que este site toca. `static.cloudflareinsights.com` serve o arquivo
+# do contador; `cloudflareinsights.com` recebe o número. Liberar um sem o outro
+# quebra a medição em silêncio: o site continua perfeito e ninguém é contado.
+# Sem a variável NEXT_PUBLIC_CF_BEACON_TOKEN o script nem chega a ser escrito no
+# HTML, então estas duas linhas ficam inertes até o token existir.
+#
+# `cdn.sanity.io` é de onde vêm as fotos das peças depois que o painel entra no
+# ar. Sem esta liberação as fotos somem em produção e continuam aparecendo em
+# desenvolvimento — o pior tipo de erro, porque ninguém reproduz.
+# ---------------------------------------------------------------------------
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://cdn.sanity.io; connect-src 'self' https://cloudflareinsights.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"
+
+# Arquivos com hash no nome nunca mudam de conteúdo.
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# As fotos das peças também são imutáveis: trocar a foto de uma peça significa
+# trocar o arquivo, e o nome do arquivo acompanha o slug da peça.
+[[headers]]
+  for = "/pecas/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+# ---------------------------------------------------------------------------
+# Tipo das imagens de compartilhamento.
+#
+# As rotas de imagem do Next geram arquivos SEM extensão (`out/opengraph-image`),
+# e o Netlify então os serve como `text/plain`. O `nosniff` acima, que existe por
+# segurança, fecha a última saída: o leitor de link fica proibido de adivinhar
+# que aquilo é um PNG, e o cartão do WhatsApp aparece sem figura.
+#
+# Estas regras declaram o tipo verdadeiro, e precisam acompanhar as rotas de
+# imagem que existirem: hoje a da home e a de cada peça.
+# ---------------------------------------------------------------------------
+
+[[headers]]
+  for = "/opengraph-image"
+  [headers.values]
+    Content-Type = "image/png"
+
+[[headers]]
+  for = "/pecas/:slug/opengraph-image"
+  [headers.values]
+    Content-Type = "image/png"
