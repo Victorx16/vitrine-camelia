@@ -374,6 +374,16 @@ Sanity servindo cópia velha, e ela foi descartada por medição (`curl` no CDN 
 na API devolviam 18 os dois). A hipótese estava errada, mas o hábito de medir
 antes de consertar foi o que evitou "consertar" a coisa errada.
 
+**A tela de login está em inglês, e o pacote de tradução não alcança.** O
+`@sanity/locale-pt-br` traduz o *Studio*; a tela de entrada é da Sanity, e vem
+com "Log in to your account" e um aviso de cookies por cima. Descoberto ao abrir
+`camelia.sanity.studio` num celular — não aparece de outro jeito.
+
+Acontece uma vez: ela entra com o Google, a sessão fica salva, e o painel é
+adicionado à tela inicial do celular, abrindo direto na lista de peças. Fica
+registrado porque muda a entrega: esse primeiro acesso se faz **junto com ela**,
+no balcão, não por instrução escrita.
+
 **Os rótulos do painel estão no vocabulário dela** — "peça", "grade que a peça
 veste", "esgotada", "entrou na loja". E as descrições de campo não explicam o
 que o campo é; explicam a REGRA ("os tamanhos em que esta peça existe, NÃO
@@ -439,7 +449,13 @@ agora.
 
 ## 16. O que ainda não existe
 
-- **`sitemap.ts`, `robots.ts` e imagem de compartilhamento.**
+Em 31/08/2026 o ciclo inteiro está no ar e foi verificado de ponta a ponta:
+publicar uma peça no painel dispara o build e a mudança aparece no site. As 18
+peças da Sanity conferem uma a uma com o que o site publicado mostra.
+
+- **A contagem de visita.** O `NEXT_PUBLIC_CF_BEACON_TOKEN` está vazio, então o
+  contador não é escrito no HTML. A medição principal — a mensagem do WhatsApp
+  com o nome da peça — funciona desde o primeiro dia.
 - **O aviso de "publicando" no painel.** A Sanity não sabe o estado do build da
   Netlify; mostrar isso exige um widget no dashboard do Studio. A versão barata
   é o badge público de deploy da Netlify (um SVG, sem token) com uma frase em
