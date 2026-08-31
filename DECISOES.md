@@ -45,7 +45,7 @@ Existem para que o site não precise de manutenção constante.
 não vale onde o estoque é confiável e a quantidade ajuda a decidir ("últimas 6
 garrafas" é informação verdadeira numa adega e mentira numa boutique).
 
-## 3. Vencimento: por que existe um build agendado
+## 3. O build: por que ele acontece e quanto custa
 
 Site exportado estático não tem relógio. Depois de publicado, "chegou essa
 semana" continua dizendo essa semana até alguém gerar o site de novo. As regras
@@ -86,6 +86,95 @@ agora". Numa boutique de bairro isso é barato perto de vinte e seis builds.
 **Quinta-feira, não segunda.** Assim o site está no ponto mais fresco entrando
 no fim de semana, que é quando se olha vitrine e se sai para comprar. Segunda
 faria o atraso ser maior justamente no sábado.
+
+### O preço, medido
+
+Números reais da conta, em 31/08/2026, plano gratuito da Netlify, ciclo de
+24/08 a 23/09:
+
+| item | consumo |
+| --- | --- |
+| **Production deploys** | **300 créditos — 20 deploys** |
+| Web requests (5.338) | 1,1 crédito |
+| Bandwidth | 1,5 crédito |
+| AI inference | 0 |
+| Compute | 0 |
+
+O plano dá **300 créditos por mês**. Vinte deploys consumiram os 300 — **15
+créditos por deploy**. Tudo o mais somado não chega a 3.
+
+Isso reposiciona o que o plano é: **não é um limite de visitas, é um limite de
+publicações.** A vitrine poderia receber cem vezes mais tráfego sem encostar no
+teto. O que a derruba é gerar o site de novo.
+
+### Três torneiras no mesmo balde
+
+Um deploy é um deploy, custe o que custar a mudança. Trocar uma vírgula na
+descrição custa igual a cadastrar uma peça com quatro fotos. E são três fontes,
+não uma:
+
+1. **O que ela publica.** Cada clique em "Publicar" — preço, cor, tamanho,
+   marcar esgotada, apagar. Não tem a ver com foto.
+2. **O que o desenvolvedor envia.** Cada `git push` dispara um deploy. Um dia de
+   correções consome um dia de orçamento dela.
+3. **O build agendado.**
+
+E o orçamento é **do time**, não do site: o portfólio do estúdio divide o mesmo
+pote com esta vitrine.
+
+### O erro que só a fatura revelou
+
+O agendamento diário eram **30 builds por mês contra um teto de 20**. O
+despertador sozinho estourava o plano, todo mês, sem ninguém publicar nada e sem
+ninguém visitar o site. Era matematicamente impossível, e foi projetado sem
+nunca se perguntar quanto custava um build.
+
+Semanal são ~4,3 por mês: 21% do orçamento em vez de 150%.
+
+### O que um mês de loja real custa
+
+Estimativa para uma vitrine curada de 30 a 60 peças com boa saída:
+
+| ação | vezes/mês |
+| --- | --- |
+| peças novas | ~10 |
+| **marcar como esgotada** | ~15 |
+| correções de preço e texto | ~3 |
+| build agendado | 4 |
+| **total** | **~32** |
+
+O **esgotada** é o item subestimado, e é a ação que ela mais repete: toda peça
+vendida é um clique em "Publicar". Trinta e dois não cabe em vinte — e nessa
+conta ninguém programou nada.
+
+### Conclusão: o plano pago não é opcional para cliente real
+
+O plano Pessoal (US$ 9/mês) dá **1.000 créditos ≈ 66 deploys**. Contra os ~32 de
+uso normal, é mais que o dobro de folga.
+
+- **Demonstração de portfólio: gratuito serve.** Ninguém publica aqui. A única
+  disciplina é não fazer vinte envios de código no mesmo dia.
+- **Cliente real: plano pago, e na conta DELA.** A promessa que vende o produto
+  é "a senhora mesma atualiza o site". No gratuito ela gastaria o mês em duas
+  semanas de trabalho normal e ficaria com o site travado sem entender por quê.
+  Na conta dela também resolve o problema de um cliente travar o deploy de
+  outro, que foi como isto apareceu.
+
+### A saída que existe e não foi construída
+
+Se algum dia for preciso segurar uma loja real no plano gratuito, o caminho é
+**agrupar publicações**: o webhook avisa uma tarefa agendada, que espera ~10
+minutos e reinicia a contagem a cada nova publicação. Cinco peças numa tarde
+viram um deploy.
+
+O detalhe que torna isso melhor do que parece: **a pressa não é igual para
+tudo.** Peça nova precisa estar no ar em dois minutos — ela quer mandar o link
+para uma cliente. Peça marcada como esgotada não tem ninguém esperando, e é a
+maioria dos cliques. Dá para agrupar só o que não tem pressa.
+
+Não foi construído de propósito: com o plano pago o problema não existe, e
+código que só serve para economizar dez dólares custa mais caro que os dez
+dólares.
 
 **↔** Vale para qualquer vitrine estática com conteúdo datado.
 

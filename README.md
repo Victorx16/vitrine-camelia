@@ -88,6 +88,13 @@ pnpm importar --sim
 3. Em **Build & deploy → Build hooks**, crie um hook. Guarde a URL como variável
    de ambiente **`BUILD_HOOK_URL`** — nunca no repositório.
 
+**Cada publicação custa um deploy, e deploy é o recurso escasso.** No plano
+gratuito da Netlify são ~20 deploys por mês para o time inteiro — medido, não
+estimado: 300 créditos, 15 por deploy. Isso inclui o que ela publica, o que você
+envia por `git push` e o build agendado. Para uma loja real o plano pago não é
+opcional; o raciocínio inteiro, com números, está em [DECISOES.md](DECISOES.md)
+§3.
+
 **Sem o `BUILD_HOOK_URL` o site envelhece em silêncio.** A função agendada em
 `netlify/functions/vencimento-agendado.mts` roda toda quinta às 5h de São Paulo e só
 existe para disparar um build: é ela que faz "chegou essa semana" deixar de ser
