@@ -82,12 +82,24 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# As fotos das peças também são imutáveis: trocar a foto de uma peça significa
-# trocar o arquivo, e o nome do arquivo acompanha o slug da peça.
-[[headers]]
-  for = "/pecas/*"
-  [headers.values]
-    Cache-Control = "public, max-age=604800"
+# NÃO existe mais uma regra de cache para /pecas/*, e a ausência é a correção de
+# um defeito que chegou a ir para produção.
+#
+# A regra existia para as fotos em /pecas/*.webp e valia sete dias. Só que o
+# mesmo prefixo pega as PÁGINAS das peças — /pecas/vestido-preto-midi é página,
+# /pecas/vestido-preto-midi.webp é foto. Resultado medido no site publicado: o
+# HTML de cada peça saía com `Cache-Control: max-age=604800`.
+#
+# O estrago: a CDN é limpa a cada deploy, mas o navegador de quem já visitou não
+# é. Ela publicava um preço novo, o site era gerado corretamente, e a cliente que
+# tinha aberto aquela peça continuava vendo o preço velho por até uma semana —
+# sem erro em lugar nenhum. É o mesmo feitio de defeito do cache de build: tudo
+# funciona e nada aparece.
+#
+# Sem regra, essas rotas herdam o padrão da hospedagem
+# (`max-age=0, must-revalidate`), que é o certo para HTML. As fotos das peças
+# hoje vêm da CDN da Sanity, que já tem o próprio cache; as poucas locais
+# perderem sete dias de cache não custa nada perto disso.
 
 # ---------------------------------------------------------------------------
 # Tipo das imagens de compartilhamento.

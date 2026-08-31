@@ -116,6 +116,35 @@ essa semana. Site estático não tem relógio depois de publicado.
    gratuito da Netlify tem 300 minutos de build por mês, e uma tarde de
    cadastro consumiria o mês inteiro. Com o filtro, só publicar dispara.
 
+### 2b. Publicação alternativa (Cloudflare Pages)
+
+O site publica nas duas hospedagens sem edição nenhuma: `netlify.toml` e
+`public/_headers` são espelhos um do outro. **Mudou um, muda o outro** —
+cabeçalho de segurança que só existe em um dos dois dá a falsa impressão de
+proteção conforme a hospedagem do dia.
+
+Por que a alternativa existe: o gratuito da Netlify dá ~20 deploys por mês
+(ver §3 do DECISOES.md) e o do Cloudflare Pages dá 500. Quando o crédito da
+Netlify acaba no meio do ciclo, o site inteiro se muda numa tarde.
+
+1. **Workers & Pages → Create → Pages → Connect to Git**, escolha o
+   repositório.
+2. Framework preset: **None**. Build command `pnpm build`, output directory
+   `out`. A versão do Node vem do `.node-version`.
+3. Variáveis de ambiente: as mesmas `NEXT_PUBLIC_SANITY_PROJECT_ID` e
+   `NEXT_PUBLIC_SANITY_DATASET`.
+4. Depois do primeiro deploy, em **Settings → Builds → Deploy hooks**, crie um
+   hook e aponte o webhook da Sanity para ele.
+
+**O que NÃO vem junto: o build agendado.** A função em `netlify/functions/` é
+específica da Netlify. No Cloudflare o equivalente seria um Cron Trigger num
+Worker, ou uma tarefa agendada no GitHub Actions — esta última é a melhor,
+porque funciona nas duas hospedagens e sobrevive à próxima mudança. Enquanto
+não existir, as datas só vencem quando alguém publica.
+
+**A Sanity não muda em nada.** Mesmo painel, mesmo endereço, mesmas peças. Só o
+destino do webhook.
+
 ### 3. Contagem de visita (Cloudflare)
 
 Opcional. A medição principal é a mensagem do WhatsApp, que já diz qual peça

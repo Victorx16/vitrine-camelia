@@ -1,0 +1,37 @@
+# Cabeçalhos para o Cloudflare Pages.
+#
+# Este arquivo é o espelho do bloco [[headers]] do netlify.toml. Existem os dois
+# porque cada hospedagem lê o seu, e o site precisa poder ser publicado nas duas
+# sem edição — foi assim que ele saiu da Netlify em uma tarde quando o crédito
+# de build acabou.
+#
+# MUDOU UM, MUDA O OUTRO. Cabeçalho de segurança que existe só em um dos dois
+# arquivos é pior que não existir: dá a impressão de estar protegido conforme a
+# hospedagem do dia.
+#
+# Ele mora em public/ porque o Next copia essa pasta inteira para out/, que é o
+# que o Cloudflare publica.
+
+/*
+  X-Frame-Options: SAMEORIGIN
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://cdn.sanity.io; connect-src 'self' https://cloudflareinsights.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+
+# Arquivos com hash no nome nunca mudam de conteúdo.
+/_next/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# As rotas de imagem do Next geram arquivos SEM extensão (out/opengraph-image).
+# Sem declarar o tipo, a hospedagem serve como texto — e o `nosniff` acima, que
+# existe por segurança, proíbe o leitor de link de adivinhar que aquilo é PNG.
+# O cartão do WhatsApp aparece sem figura.
+#
+# Precisa acompanhar as rotas de imagem que existirem: hoje a da home e a de
+# cada peça.
+/opengraph-image
+  Content-Type: image/png
+
+/pecas/:slug/opengraph-image
+  Content-Type: image/png
