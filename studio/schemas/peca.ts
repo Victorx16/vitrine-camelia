@@ -126,6 +126,27 @@ export const peca = defineType({
                 "Opcional. Para quem usa leitor de tela. Se ficar vazio, o site escreve uma a partir do nome, do tecido e das cores.",
             }),
           ],
+          /**
+           * Sem isto, cada foto da lista aparece como "Sem título".
+           *
+           * "Sem título" lê como defeito — como se faltasse alguma coisa que
+           * ela esqueceu de preencher. E falta mesmo: a descrição é opcional
+           * de propósito (alt obrigatório é um campo que se preenche mal
+           * quarenta vezes por ano), então o vazio é o caso NORMAL, não o
+           * excepcional. Um rótulo neutro diz a verdade sem acusar ninguém.
+           *
+           * "Foto 1", "Foto 2" seria melhor e não dá: a prévia de um item de
+           * lista não recebe a posição dele, só os campos. Trocar isso por um
+           * componente de entrada próprio seria muita superfície para pouca
+           * coisa — a ordem já está visível na tela, com as alças de arrastar.
+           */
+          preview: {
+            select: { alt: "alt", media: "asset" },
+            prepare: ({ alt, media }) => ({
+              title: alt || "Foto da peça",
+              media,
+            }),
+          },
         }),
       ],
       validation: (regra) => regra.required().min(1).max(4),

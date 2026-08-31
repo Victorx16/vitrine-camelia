@@ -52,7 +52,11 @@ cd studio && pnpm install && pnpm deploy
 
 Ele vai para `https://camelia.sanity.studio` (o nome está em `sanity.cli.ts`).
 
-5. Em **API → CORS origins**, libere o endereço do site.
+5. **CORS não é necessário**, e vale saber por quê: o site nunca fala com a
+   Sanity pelo navegador. A busca do catálogo acontece no build, em Node, onde
+   CORS não existe; e as fotos entram por `<img>` a partir do CDN, que também
+   não passa por CORS. Se um dia alguma tela do site consultar a API ao vivo,
+   aí sim.
 6. **Carregue as 18 peças de demonstração.** Crie um token com permissão de
    *Editor* em **API → Tokens**, ponha em `.env.local` como `SANITY_WRITE_TOKEN`
    e rode:
@@ -90,8 +94,20 @@ existe para disparar um build: é ela que faz "chegou essa semana" deixar de ser
 essa semana. Site estático não tem relógio depois de publicado.
 
 4. Na Sanity, em **API → Webhooks**, aponte um webhook para o mesmo
-   `BUILD_HOOK_URL` no tipo `peca`. É o que faz a publicação dela chegar ao ar
-   em um ou dois minutos.
+   `BUILD_HOOK_URL`. É o que faz a publicação dela chegar ao ar em um ou dois
+   minutos.
+
+   **O filtro precisa excluir rascunho:**
+
+   ```
+   _type == "peca" && !(_id in path("drafts.**"))
+   ```
+
+   Só `_type == "peca"` parece certo e não é. A Sanity salva rascunho sozinha
+   enquanto ela digita, e cada gravação dessas é um evento — o webhook
+   dispararia um build a cada poucos segundos com o formulário aberto. O plano
+   gratuito da Netlify tem 300 minutos de build por mês, e uma tarde de
+   cadastro consumiria o mês inteiro. Com o filtro, só publicar dispara.
 
 ### 3. Contagem de visita (Cloudflare)
 
