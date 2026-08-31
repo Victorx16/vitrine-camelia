@@ -89,7 +89,7 @@ pnpm importar --sim
    de ambiente **`BUILD_HOOK_URL`** — nunca no repositório.
 
 **Sem o `BUILD_HOOK_URL` o site envelhece em silêncio.** A função agendada em
-`netlify/functions/vencimento-diario.mts` roda todo dia às 5h de São Paulo e só
+`netlify/functions/vencimento-agendado.mts` roda toda quinta às 5h de São Paulo e só
 existe para disparar um build: é ela que faz "chegou essa semana" deixar de ser
 essa semana. Site estático não tem relógio depois de publicado.
 

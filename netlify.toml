@@ -23,10 +23,29 @@
 # hook é segredo e vive na variável BUILD_HOOK_URL, configurada no painel do
 # Netlify — nunca neste arquivo, que vai para o repositório.
 #
-# 8h UTC = 5h em São Paulo: o site se refaz antes de a loja abrir.
+# Semanal, não diário — e a mudança tem uma história.
+#
+# Era diário, e o custo apareceu: crédito de build da Netlify acabou no meio do
+# mês e os deploys de produção pararam. Trinta builds por mês para sustentar uma
+# regra de vinte e um dias é caro pelo que entrega.
+#
+# O agendado não é o que mantém o site em dia — quem faz isso é o webhook: toda
+# publicação dela já dispara um build, e junto vão as datas. O agendado só
+# importa nas semanas em que ela não publica NADA, e nessas não há novidade
+# entrando; o que precisa acontecer é a seção "chegou agora" encolher sozinha.
+# Semanal dá conta disso.
+#
+# O preço: uma peça pode ficar até seis dias a mais em "chegou agora".
+#
+# Quinta-feira, e não segunda, de propósito: assim o site está no ponto mais
+# fresco entrando no fim de semana, que é quando se olha vitrine e se sai para
+# comprar. Agendar na segunda faria o atraso ser maior justamente no sábado.
+#
+# 8h UTC = 5h em São Paulo (o Brasil não tem mais horário de verão): o site se
+# refaz antes de a loja abrir.
 # ---------------------------------------------------------------------------
-[functions."vencimento-diario"]
-  schedule = "0 8 * * *"
+[functions."vencimento-agendado"]
+  schedule = "0 8 * * 4"
 
 # ---------------------------------------------------------------------------
 # Cabeçalhos de segurança.

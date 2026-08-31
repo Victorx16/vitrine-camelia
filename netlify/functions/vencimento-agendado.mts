@@ -4,7 +4,7 @@
  * Motivo em netlify.toml, onde está o agendamento: o site é estático e não tem
  * relógio depois de publicado. As regras de vencimento (peça que sai do
  * destaque, peça esgotada que sai do catálogo) são calculadas no build, então
- * sem um build diário elas não acontecem.
+ * sem um build agendado elas não acontecem.
  *
  * A função não recebe dado, não devolve dado e não tem acesso ao conteúdo do
  * site. Ela bate num endereço secreto que o Netlify guarda e que faz o próprio
@@ -17,7 +17,7 @@ const dispararBuild = async () => {
     // Sem o hook a função é inofensiva, mas silenciosamente inútil — e o
     // sintoma (data velha no site) aparece semanas depois, longe da causa.
     console.error(
-      "BUILD_HOOK_URL não está definida. O build diário não vai acontecer e as regras de vencimento vão congelar.",
+      "BUILD_HOOK_URL não está definida. O build agendado não vai acontecer e as regras de vencimento vão congelar.",
     );
     return new Response("BUILD_HOOK_URL ausente", { status: 500 });
   }

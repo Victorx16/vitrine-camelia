@@ -49,8 +49,8 @@ garrafas" é informação verdadeira numa adega e mentira numa boutique).
 
 Site exportado estático não tem relógio. Depois de publicado, "chegou essa
 semana" continua dizendo essa semana até alguém gerar o site de novo. As regras
-de vencimento em `lib/peca.ts` são calculadas em tempo de build, e sem um build
-por dia elas simplesmente não acontecem.
+de vencimento em `lib/peca.ts` são calculadas em tempo de build, e sem alguém
+disparando um build de tempos em tempos elas simplesmente não acontecem.
 
 Duas alternativas foram consideradas e descartadas:
 
@@ -60,14 +60,32 @@ Duas alternativas foram consideradas e descartadas:
 - **Vencer só na próxima publicação** — amarra a validade do site à disciplina
   de quem publica. Duas semanas sem publicar e a home mente.
 
-A solução é uma função agendada no Netlify (`netlify/functions/vencimento-diario.mts`,
-agendada em `netlify.toml` para 8h UTC = 5h em São Paulo) que só bate no build
-hook do próprio site. A URL do hook vive na variável de ambiente
-`BUILD_HOOK_URL`, configurada no painel do Netlify, nunca no repositório.
+A solução é uma função agendada no Netlify (`netlify/functions/vencimento-agendado.mts`,
+agendada em `netlify.toml`) que só bate no build hook do próprio site. A URL do
+hook vive na variável de ambiente `BUILD_HOOK_URL`, configurada no painel do
+Netlify, nunca no repositório.
 
 **Isto é dependência de verdade, não detalhe de configuração.** Sem a variável,
 a função registra erro e nada vence — e o sintoma (data velha no site) aparece
 semanas depois, longe da causa.
+
+**Era diário e virou semanal, por conta de custo real.** Em 31/08/2026 o crédito
+de build da Netlify acabou no meio do ciclo e os deploys de produção pararam —
+com uma alteração de preço já publicada no painel e presa fora do ar. Trinta
+builds por mês para sustentar uma regra de vinte e um dias não se paga.
+
+O raciocínio da troca: **o agendado não é o que mantém o site em dia.** Quem faz
+isso é o webhook — toda publicação dela dispara um build, e as datas vão junto.
+O agendado só importa nas semanas em que ela não publica nada, e nessas não há
+novidade entrando; o que precisa acontecer é "chegou agora" encolher sozinha.
+Semanal dá conta.
+
+O preço, dito por inteiro: uma peça pode ficar até seis dias a mais em "chegou
+agora". Numa boutique de bairro isso é barato perto de vinte e seis builds.
+
+**Quinta-feira, não segunda.** Assim o site está no ponto mais fresco entrando
+no fim de semana, que é quando se olha vitrine e se sai para comprar. Segunda
+faria o atraso ser maior justamente no sábado.
 
 **↔** Vale para qualquer vitrine estática com conteúdo datado.
 
