@@ -1,6 +1,6 @@
 import { ptBRLocale } from "@sanity/locale-pt-br";
 import { visionTool } from "@sanity/vision";
-import { defineConfig } from "sanity";
+import { defineConfig, defineLocaleResourceBundle } from "sanity";
 import { structureTool } from "sanity/structure";
 import { schemaTypes } from "./schemas";
 
@@ -16,6 +16,29 @@ import { schemaTypes } from "./schemas";
  * Fluxo completo: ela publica aqui → um webhook bate no build hook da Netlify →
  * a Netlify gera o site → um ou dois minutos depois a peça está no ar.
  */
+/**
+ * "Nova peça", não "Novo Peça".
+ *
+ * A tradução pt-BR da Sanity monta o título de um documento novo como
+ * "Novo {{schemaType}}", e nenhuma língua com gênero sobrevive a esse tipo de
+ * montagem: o tipo aqui se chama "Peça", e sai "Novo Peça" no cabeçalho e na
+ * aba do navegador. É pequeno e é exatamente o tipo de coisa que faz um painel
+ * parecer traduzido por máquina — logo na tela em que ela cadastra a peça.
+ *
+ * Corrigir de forma geral exigiria gênero por tipo de documento, que a Sanity
+ * não tem. Aqui não é preciso: **existe um tipo só, e ele é feminino.** Por
+ * isso o "Nova" pode ser escrito à mão. No dia em que um segundo tipo entrar
+ * neste painel, isto quebra para ele — e é o comentário que avisa.
+ */
+const concordancia = defineLocaleResourceBundle({
+  locale: "pt-BR",
+  namespace: "structure",
+  resources: {
+    "panes.document-header-title.new.text": "Nova {{schemaType}}",
+    "browser-document-title.new-document": "Nova {{schemaType}}",
+  },
+});
+
 export default defineConfig({
   name: "camelia",
   title: "Camélia",
@@ -40,6 +63,10 @@ export default defineConfig({
   ],
 
   schema: { types: schemaTypes },
+
+  // Depois dos plugins de propósito: o que vem por último vence, e é assim que
+  // o "Nova" sobrescreve o "Novo" que veio no pacote de tradução.
+  i18n: { bundles: [concordancia] },
 
   document: {
     // Ela não cria mais nada além de peça. Um menu "criar novo" com um item só
