@@ -176,6 +176,39 @@ Não foi construído de propósito: com o plano pago o problema não existe, e
 código que só serve para economizar dez dólares custa mais caro que os dez
 dólares.
 
+### O mesmo site no Cloudflare: o teto deixa de existir
+
+Números lidos no painel de planos do Cloudflare, em 01/09/2026:
+
+| | Netlify grátis | Cloudflare grátis |
+| --- | --- | --- |
+| unidade | 300 créditos | 3.000 minutos de build |
+| custo de um build | 15 créditos (medido) | ~1 minuto (57s, medido) |
+| **publicações por mês** | **~20** | **~3.000** |
+| tráfego | 5.338 requisições = 1,1 crédito | 100.000 requisições/dia |
+
+Não é folga maior; é o problema deixando de existir. Todo o raciocínio acima —
+o teto de vinte, a conta do mês de loja real, o plano pago, o agrupamento que
+seria preciso construir — nasce de uma escassez que só a Netlify impõe.
+
+**Consequências diretas:**
+
+- **O plano pago deixa de ser necessário** para um cliente real. O custo mensal
+  de hospedagem pode ser zero, e isso muda a proposta comercial, não só a
+  infraestrutura.
+- **O agrupamento não será construído.** Era código para caber em vinte
+  deploys. Complexidade que só existe para economizar dinheiro que ninguém
+  gasta é a pior espécie.
+- **O build agendado tem casa aqui**: o gratuito inclui 5 Cron Triggers por
+  conta, o que dispensa até o GitHub Actions.
+
+**Duas coisas por conferir antes de prometer "grátis" a alguém.** O cartão do
+plano diz *"For personal use and simple applications"* no Free e *"For business
+use"* no pago de US$ 5 — texto de marketing, talvez, mas é a mesma zona cinzenta
+do plano Hobby da Vercel e merece leitura dos termos. E o plano gratuito da
+Sanity continua não medido: enquanto for, o custo mensal do projeto é
+desconhecido, não zero.
+
 **↔** Vale para qualquer vitrine estática com conteúdo datado.
 
 ## 4. `destaque` fixa; `dataEntrada` povoa
