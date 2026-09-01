@@ -209,6 +209,38 @@ do plano Hobby da Vercel e merece leitura dos termos. E o plano gratuito da
 Sanity continua não medido: enquanto for, o custo mensal do projeto é
 desconhecido, não zero.
 
+### Movimento: o que ficou e o que foi tirado
+
+**Ficou:** as peças entram uma após a outra, 10px em meio segundo, com 45ms de
+atraso por item e teto de oito. Verificado com o olho do Victor: *"vejo as
+roupas entrarem uma após a outra"*.
+
+**O número que fez a diferença foi a margem do observador, não a animação.** Com
+`-12%`, a peça começava a revelar quando mal tinha entrado na tela: meio segundo
+de transição terminava na periferia e, quando o olho chegava, já estava pronto.
+O relato antes da correção foi literal — "tudo aparece pronto, nada teve
+movimento" — **com o mecanismo funcionando** (19 de 19 revelados ao rolar até o
+fim). Com `-22%` o movimento acontece onde a pessoa está olhando.
+
+**Foi tirado:** o fio da arara sendo desenhado quando a seção entra. Era o único
+gesto que vinha do assunto em vez de vir de uma biblioteca, e mesmo assim caiu —
+por uma razão que só o olho de alguém revela: **o fio animado é curto e mora
+dentro do cabeçalho da seção, e o olho não segue aquela linha.** O Victor olhou
+para a borda entre seções, que corre de ponta a ponta, e esperou que ela se
+mexesse.
+
+A alternativa seria animar as bordas de seção, que são as linhas que o olho de
+fato acompanha. Foi oferecida e recusada: a página inteira se montando à medida
+que desce cansa mais do que encanta numa vitrine, onde o conteúdo é a foto da
+peça e não a moldura.
+
+**A lição de método, e ela custou caro:** `IntersectionObserver` e
+`ResizeObserver` não disparam no painel de navegador usado para verificar. Três
+diagnósticos foram dados como certos com esse instrumento e estavam errados,
+inclusive um alarme de "doze blocos invisíveis em produção" que não existia.
+**Para qualquer coisa que dependa de rolagem, o instrumento é o olho de uma
+pessoa num navegador de verdade.**
+
 **↔** Vale para qualquer vitrine estática com conteúdo datado.
 
 ## 4. `destaque` fixa; `dataEntrada` povoa

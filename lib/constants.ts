@@ -133,7 +133,11 @@ export const COPY = {
     rotulo: "Chegou agora",
     titulo: "Organizado pelo dia em que entrou.",
     subtitulo:
-      "Sem paginação e sem filtro: é a arara, na ordem em que foi montada.",
+      // "sem filtro" saiu porque virou mentira: o catálogo passou a ter filtro
+      // por tipo e por tamanho. A frase descrevia ESTA seção — a home, que
+      // continua sendo só a ordem de entrada — mas ninguém lê uma frase como
+      // sendo sobre a seção; lê como sendo sobre o site.
+      "Sem paginação: é a arara, na ordem em que as peças entraram.",
     vazio: "Nada novo essa semana. As peças anteriores continuam no catálogo.",
   },
 
