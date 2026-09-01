@@ -3,6 +3,7 @@ import { Fraunces, Karla } from "next/font/google";
 import { Cabecalho } from "@/components/layout/cabecalho";
 import { Rodape } from "@/components/layout/rodape";
 import { Cloudflare } from "@/components/medicao/cloudflare";
+import { Bandeja } from "@/components/separar/bandeja";
 import { ObservadorRevela } from "@/components/ui/observador-revela";
 import { AVISO_MODELO, INDEXAR, LOJA } from "@/lib/constants";
 import "./globals.css";
@@ -91,6 +92,7 @@ export default function RootLayout({
           {children}
         </main>
         <Rodape />
+        <Bandeja />
 
         <ObservadorRevela />
         <Cloudflare />

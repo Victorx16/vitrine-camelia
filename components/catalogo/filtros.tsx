@@ -46,13 +46,24 @@ interface Selecao {
 
 const VAZIA: Selecao = { categoria: null, tamanho: null, busca: "" };
 
-/** Acende e apaga as peças no HTML já gerado. Devolve quantas sobraram. */
-function pintar({ categoria, tamanho, busca }: Selecao): number {
+/**
+ * Acende e apaga as peças no HTML já gerado. Devolve quantas sobraram.
+ *
+ * `restricao` é o conjunto que veio de `?separadas=` — as peças que a cliente
+ * escolheu e mandou pelo WhatsApp. Ela é um corte por cima dos filtros, não um
+ * filtro: quem abre esse link está vendo a lista que alguém montou, e nenhum
+ * toque em "G" deveria fazer aparecer peça que não estava nela.
+ */
+function pintar(
+  { categoria, tamanho, busca }: Selecao,
+  restricao: ReadonlySet<string> | null,
+): number {
   const termo = semAcento(busca.trim());
   let contagem = 0;
 
   for (const alvo of document.querySelectorAll<HTMLElement>("[data-peca]")) {
     const serve =
+      (!restricao || restricao.has(alvo.dataset.slug ?? "")) &&
       (!categoria || alvo.dataset.categoria === categoria) &&
       (!tamanho || (alvo.dataset.tamanhos ?? "").includes(` ${tamanho} `)) &&
       (!termo || (alvo.dataset.busca ?? "").includes(termo));
@@ -76,8 +87,15 @@ function pintar({ categoria, tamanho, busca }: Selecao): number {
  * entrada no histórico, e o botão "voltar" do celular passaria a desfazer
  * letras em vez de sair da página.
  */
-function escreverEndereco({ categoria, tamanho, busca }: Selecao, fixa?: Categoria) {
+function escreverEndereco(
+  { categoria, tamanho, busca }: Selecao,
+  fixa: Categoria | undefined,
+  restricao: ReadonlySet<string> | null,
+) {
   const params = new URLSearchParams();
+  // A seleção compartilhada sobrevive a qualquer filtro: quem recebeu o link
+  // precisa poder recarregar a página sem perdê-la.
+  if (restricao) params.set("separadas", [...restricao].join(","));
   // A categoria vai como apelido sem acento ("tricos"), nunca com o valor
   // cru ("tricô"). Acento em endereço é frágil: o mesmo "ô" viaja como um
   // caractere ou como dois dependendo do aparelho que copiou o link, e o
@@ -98,6 +116,7 @@ function escreverEndereco({ categoria, tamanho, busca }: Selecao, fixa?: Categor
 export function Filtros({ categorias, tamanhos, total, categoriaFixa }: FiltrosProps) {
   const [selecao, setSelecao] = useState<Selecao>(VAZIA);
   const [visiveis, setVisiveis] = useState(total);
+  const [restricao, setRestricao] = useState<ReadonlySet<string> | null>(null);
 
   /**
    * O único efeito, e ele roda uma vez.
@@ -127,6 +146,13 @@ export function Filtros({ categorias, tamanhos, total, categoriaFixa }: FiltrosP
     const tam = params.get("tamanho");
     const q = params.get("q") ?? "";
 
+    // As peças de uma seleção compartilhada. Vem do link que a mensagem do
+    // WhatsApp carrega.
+    const cru = params.get("separadas");
+    const escolhidas = cru
+      ? new Set(cru.split(",").map((x) => x.trim()).filter(Boolean))
+      : null;
+
     // Aceita as duas formas — "tricos" (o que escrevemos) e "trico" (o que
     // alguém digitaria à mão) — porque link é coisa que se edita no meio da
     // conversa.
@@ -144,7 +170,8 @@ export function Filtros({ categorias, tamanhos, total, categoriaFixa }: FiltrosP
     };
 
     setSelecao(inicial);
-    setVisiveis(pintar(inicial));
+    setRestricao(escolhidas);
+    setVisiveis(pintar(inicial, escolhidas));
     // Uma vez só, na montagem. As mudanças seguintes vêm dos cliques.
   }, []);
   /* eslint-enable react-hooks/set-state-in-effect, react-hooks/exhaustive-deps */
@@ -153,8 +180,8 @@ export function Filtros({ categorias, tamanhos, total, categoriaFixa }: FiltrosP
   function escolher(mudanca: Partial<Selecao>) {
     const nova = { ...selecao, ...mudanca };
     setSelecao(nova);
-    setVisiveis(pintar(nova));
-    escreverEndereco(nova, categoriaFixa);
+    setVisiveis(pintar(nova, restricao));
+    escreverEndereco(nova, categoriaFixa, restricao);
   }
 
   const { categoria, tamanho, busca } = selecao;
@@ -222,6 +249,12 @@ export function Filtros({ categorias, tamanhos, total, categoriaFixa }: FiltrosP
           </button>
         )}
       </div>
+
+      {restricao && (
+        <p className="text-musgo border-fio border-t pt-3 text-sm">
+          {COPY.filtro.separadas}
+        </p>
+      )}
 
       {visiveis === 0 && <p className="text-sepia text-sm">{COPY.filtro.vazio}</p>}
     </div>

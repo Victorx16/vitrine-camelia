@@ -110,6 +110,16 @@ export const INDEXAR = true;
 /** Teto de peças fixadas no topo. Acima disso, "vitrine" virou "catálogo". */
 export const TETO_DESTAQUE = 6;
 
+/**
+ * Quantas peças cabem na seleção antes de perguntar.
+ *
+ * Oito, e o número tem duas razões. A mensagem do WhatsApp cresce uma linha por
+ * peça, e uma lista de vinte itens deixa de ser pergunta e vira pedido — que é
+ * a fronteira que este site não atravessa. E separar dezenas é comportamento de
+ * quem está montando um carrinho, não de quem quer tirar uma dúvida.
+ */
+export const TETO_SEPARADAS = 8;
+
 export const COPY = {
   capa: {
     rotulo: "Vitrine da semana",
@@ -142,6 +152,23 @@ export const COPY = {
    * peça. A palavra que ela usa no balcão atravessa o sistema inteiro, do
    * formulário que ela preenche até o botão que a cliente aperta.
    */
+  /**
+   * Separar peças para perguntar de uma vez.
+   *
+   * "Separar" é a palavra do balcão — "vou separar essa pra você". Nenhum termo
+   * de e-commerce aparece aqui: não há sacola, carrinho, cesta nem lista de
+   * desejos. A palavra certa é a que ela já usa com a cliente na frente dela.
+   */
+  separar: {
+    fora: "Separar",
+    dentro: "Separada ✓",
+    cheio: "Máximo separado",
+    limpar: "Limpar",
+    regiao: "Peças separadas",
+    perguntarUma: "Perguntar sobre esta peça",
+    perguntarMuitas: "Perguntar sobre as {n} peças",
+  },
+
   /** As páginas por tipo de peça. `{tipo}` vira "Vestidos", "Camisas"… */
   categoria: {
     rotulo: "Por tipo",
@@ -160,6 +187,8 @@ export const COPY = {
     contaUma: " peça",
     contaMuitas: " peças",
     limpar: "Limpar",
+    separadas:
+      "Mostrando as peças separadas neste link. Recarregue o catálogo para ver tudo.",
     vazio:
       "Nada com esses filtros. Tire um deles — ou pergunte no WhatsApp: muita coisa da loja não chega a ser fotografada.",
   },

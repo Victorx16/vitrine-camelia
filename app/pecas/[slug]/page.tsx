@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { BotaoWhatsApp } from "@/components/peca/botao-whatsapp";
+import { BotaoSeparar } from "@/components/separar/botao";
 import { Foto } from "@/components/peca/foto";
 import { GradeTamanhos } from "@/components/peca/grade-tamanhos";
 import { Rotulo } from "@/components/ui/rotulo";
@@ -133,6 +134,7 @@ export default async function PaginaPeca({ params }: Props) {
 
           <div className="flex flex-col gap-3">
             <BotaoWhatsApp peca={peca} />
+            <BotaoSeparar peca={peca} className="self-start" />
             {/* A frase que substitui o estoque. A vitrine nunca diz quanto
                 sobrou — diz onde a confirmação acontece. */}
             <p className="text-sepia max-w-[42ch] text-[0.8125rem] leading-relaxed">

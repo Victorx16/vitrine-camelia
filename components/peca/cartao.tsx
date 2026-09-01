@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BotaoWhatsApp } from "@/components/peca/botao-whatsapp";
+import { BotaoSeparar } from "@/components/separar/botao";
 import { Foto } from "@/components/peca/foto";
 import { GradeTamanhos } from "@/components/peca/grade-tamanhos";
 import { COPY } from "@/lib/constants";
@@ -111,7 +112,12 @@ export function Cartao({ peca, indice = 0, className }: CartaoProps) {
         <p className="text-sepia text-[0.8125rem] leading-snug">{detalhe}</p>
       )}
 
-      <BotaoWhatsApp peca={peca} variante="texto" className="-mt-1" />
+      {/* As duas ações são irmãs: perguntar agora, ou juntar para perguntar
+          depois. Mesmo peso, mesma linha, nenhuma com cara de e-commerce. */}
+      <div className="-mt-1 flex flex-wrap items-center gap-x-4">
+        <BotaoWhatsApp peca={peca} variante="texto" />
+        <BotaoSeparar peca={peca} />
+      </div>
     </article>
   );
 }

@@ -326,6 +326,69 @@ pré-escrita parecer escrita por máquina.
 automatizado: a assistente responde saudação e horário, o site responde o que
 tem e quanto custa, a dona responde o que só ela sabe.
 
+### Separar peças: onde fica a linha do carrinho
+
+A vitrine passou a deixar a visitante **separar** algumas peças e perguntar
+sobre todas numa mensagem só. A pergunta óbvia — "isso não é um carrinho?" — tem
+resposta, e ela precisa estar escrita para o dia em que alguém quiser esticar
+mais.
+
+**Carrinho acumula com intenção de comprar**: tem quantidade, tem total, tem
+checkout, e obriga a loja a manter estoque correto. Nada disso existe aqui. O
+que existe é o gesto do balcão — a atendente separa duas ou três peças para a
+cliente ver junto — e a conversa continua sendo com uma pessoa, que confirma se
+ainda tem.
+
+**A régua, para a próxima ideia: se ela obrigar a saber QUANTAS peças existem,
+está do outro lado da linha.**
+
+E isto não é recurso novo inventado: a cliente já manda três prints de uma vez
+no Instagram. O site, antes disto, **piorava** esse comportamento — obrigava a
+mandar três mensagens separadas.
+
+**Sem total, de propósito.** Somar os preços transforma "gostei destas três" em
+"vou levar estas três". Cada peça leva o seu preço na mensagem; a soma é assunto
+da conversa.
+
+**"Separar", nunca "carrinho", "sacola" ou "lista de desejos".** É a palavra que
+ela já usa com a cliente na frente dela. E a linguagem visual acompanha: não há
+ícone de sacola, não há bolinha com número. O botão é uma linha de texto do
+mesmo peso do "quero esta peça" ao lado — as duas ações são irmãs, perguntar
+agora ou juntar para perguntar depois.
+
+**Peça esgotada não pode ser separada.** Separar existe para montar uma pergunta
+sobre o que dá para levar; peça que já foi entra na conversa por outro caminho
+("quero uma parecida"), que é outra conversa.
+
+**Teto de oito.** Uma lista de vinte deixa de ser pergunta e vira pedido — de
+novo a fronteira. E separar dezenas é comportamento de quem monta carrinho, não
+de quem tira dúvida.
+
+**A mensagem leva um link só**, para o catálogo já filtrado nas peças
+escolhidas (`?separadas=...`). Um endereço por peça encheria a mensagem de links
+ilegíveis; assim a dona abre uma página e vê as três com foto. Esse corte é
+absoluto: nenhum filtro aplicado por cima traz peça que não estava na seleção.
+
+**O estado vive no navegador de quem visita, e em lugar nenhum além dele.** Não
+há servidor, não há conta, e a dona não vê seleção de ninguém — ela vê a
+mensagem que a pessoa decidiu mandar.
+
+**A barra não lista as peças, e isso foi correção de um defeito.** A primeira
+versão listava cada peça com preço; com cinco separadas ela cresceu para 191px e
+cobriu o rodapé, inclusive o aviso de que a loja é fictícia. A tentativa
+seguinte — medir a altura com `ResizeObserver` — não disparou de forma
+confiável nem num teste direto, porque depende de quadro de animação.
+
+A saída veio de olhar o que já existia: **o WhatsApp mostra a mensagem inteira
+antes de enviar.** A revisão do que foi separado já acontece lá, com nome e
+preço. Repetir isso numa barra fixa era duplicar uma tela que a pessoa vê de
+qualquer jeito, e pagar com o rodapé coberto. Sem a lista, a barra tem uma linha
+e altura constante — e não há medição para dar errado.
+
+**↔** O mecanismo (juntar itens, mandar numa mensagem, link que reabre a
+seleção) vale para qualquer vitrine. O nome "separar" é de loja de roupa; numa
+adega seria outro verbo.
+
 ## 7. Medição
 
 Duas camadas, e a ordem entre elas importa.

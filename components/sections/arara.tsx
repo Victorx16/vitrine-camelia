@@ -48,6 +48,7 @@ export function Arara({
             filtravel
               ? {
                   "data-peca": "",
+                  "data-slug": peca.slug,
                   "data-categoria": peca.categoria,
                   // Espaço nas pontas para o filtro poder procurar " M " e não
                   // casar "M" dentro de "GG". É o truque mais velho do mundo e
