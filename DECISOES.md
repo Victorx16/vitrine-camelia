@@ -654,6 +654,36 @@ conversa.
 para 1,01 tela no celular. Quem domina essa altura é o cabeçalho da página, não
 o filtro.
 
+### As páginas por tipo de peça
+
+`/pecas/categoria/vestidos`, uma por tipo que tenha peça hoje.
+
+**Se o filtro já faz isso, por que existem?** Porque filtro não tem endereço
+para o Google. Quem procura "vestido midi Santo André" precisa cair numa página
+que já É sobre vestidos — com título, descrição e conteúdo sobre vestidos — e
+não numa página genérica que só vira sobre vestidos depois que alguém clica num
+botão. É a diferença entre o site ser **encontrado** e o site ser **navegado**,
+e são coisas diferentes.
+
+**O segmento `categoria/` no meio do endereço não é enfeite.** Sem ele,
+`/pecas/vestidos` disputaria lugar com `/pecas/vestido-preto-midi` — a rota de
+peça já ocupa esse nível, e o dia em que uma peça se chamasse "vestidos" seria
+um defeito impossível de achar.
+
+**Os tamanhos do filtro são os que existem dentro daquele tipo**, não a grade
+inteira. Numa página de vestidos com P, M e G, oferecer "44" seria prometer
+prateleira vazia.
+
+**A descrição diz a cidade e a quantidade** ("3 peças na arara agora"). Número
+em descrição é incomum, e aqui é honesto: sai do build do dia e o site se refaz
+quando o catálogo muda. É também o que separa esta página de mil iguais na
+busca — quantidade específica diz que existe loja de verdade atrás.
+
+**As irmãs são links de verdade**, no fim da página. É assim que a autoridade de
+uma página alcança as vizinhas, e é assim que funciona sem JavaScript. O
+sitemap anuncia todas com prioridade acima da peça individual: uma página de
+tipo continua verdadeira depois que a peça vence.
+
 **↔** Filtro por grade de tamanho é de vestuário. O que sobrevive a outro ramo é
 o mecanismo: facetas contadas do catálogo do dia, seleção no endereço, e
 filtragem por atributo no HTML já gerado.

@@ -50,6 +50,21 @@ export function urlDaCategoria(categoria: Categoria): string {
     .replace(RE_ACENTO, "");
 }
 
+/**
+ * O caminho de volta: "vestidos" -> "vestido".
+ *
+ * Percorre a lista em vez de manter um segundo mapa. São onze categorias, e um
+ * mapa invertido escrito à mão é exatamente o tipo de coisa que sai de sincronia
+ * no dia em que alguém acrescenta "bolsa" e mexe só num dos dois lugares.
+ */
+export function categoriaDaUrl(apelido: string): Categoria | null {
+  const chave = semAcento(apelido);
+  const achada = (Object.keys(PLURAL) as Categoria[]).find(
+    (c) => urlDaCategoria(c) === chave || semAcento(c) === chave,
+  );
+  return achada ?? null;
+}
+
 export interface Faceta<T extends string = string> {
   valor: T;
   rotulo: string;

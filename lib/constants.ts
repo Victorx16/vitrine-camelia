@@ -11,7 +11,11 @@ export const LOJA = {
   descritor: "boutique",
   cidade: "Santo André",
   regiao: "ABC Paulista",
-  url: "https://camelia-modelo.netlify.app",
+  // O modelo mudou de hospedagem quando o crédito de build da Netlify acabou
+  // no meio do ciclo. Este endereço alimenta o sitemap, os links canônicos e o
+  // cartão de compartilhamento: apontar para o lugar errado não quebra nada de
+  // forma visível e estraga tudo em silêncio.
+  url: "https://vitrine-camelia.victorxavi418.workers.dev",
 
   /**
    * O WhatsApp da demonstração aponta para o Victor, não para um número
@@ -138,6 +142,16 @@ export const COPY = {
    * peça. A palavra que ela usa no balcão atravessa o sistema inteiro, do
    * formulário que ela preenche até o botão que a cliente aperta.
    */
+  /** As páginas por tipo de peça. `{tipo}` vira "Vestidos", "Camisas"… */
+  categoria: {
+    rotulo: "Por tipo",
+    titulo: "{tipo} na loja.",
+    subtitulo:
+      "O que está na arara agora. Se você procura algo que não está aqui, pergunte no WhatsApp — muita coisa não chega a ser fotografada.",
+    todas: "Ver todas as peças",
+    outras: "Outros tipos",
+  },
+
   filtro: {
     categoria: "Procurando",
     tamanho: "Que veste",
