@@ -12,8 +12,19 @@
 # Ele mora em public/ porque o Next copia essa pasta inteira para out/, que é o
 # que o Cloudflare publica.
 
+# HSTS: o navegador passa a recusar http:// neste endereço por um ano.
+#
+# Ele estava no ar sem estar em arquivo nenhum: a Netlify o acrescentava
+# sozinha, e a mudança para o Cloudflare o levou embora sem ninguém notar —
+# nada quebra quando um cabeçalho de segurança some. Agora ele é declarado, e
+# vale nas duas hospedagens.
+#
+# Sem `preload`: entrar na lista embutida dos navegadores é praticamente
+# irreversível, e não se faz isso no domínio de um cliente sem ele saber.
+
 /*
   X-Frame-Options: SAMEORIGIN
+  Strict-Transport-Security: max-age=31536000; includeSubDomains
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=()
