@@ -115,6 +115,9 @@ function paraPeca({ outraCor, ...crua }: PecaCrua): Peca {
  */
 let cache: Promise<Peca[]> | null = null;
 
+/** Muda a cada execução do build. Ver o uso, na chamada de `fetch`. */
+const SELO = String(Date.now());
+
 async function buscar(): Promise<Peca[]> {
   if (!cliente) return PECAS;
 
@@ -142,13 +145,33 @@ async function buscar(): Promise<Peca[]> {
      * As fotos continuam guardadas por um ano, e devem: a URL do CDN carrega o
      * hash do arquivo, então foto trocada é URL trocada.
      */
-    const cruas = await cliente.fetch<PecaCrua[]>(CONSULTA, {}, { next: { revalidate: 1 } });
+    const cruas = await cliente.fetch<PecaCrua[]>(
+      CONSULTA,
+      {},
+      // O selo entra na URL como `?tag=...` e muda a cada processo de build.
+      // É o que torna IMPOSSÍVEL o Next reaproveitar uma resposta guardada: a
+      // chave do cache é a URL, e a URL nunca se repete entre dois builds.
+      //
+      // O prazo de um segundo continua como segunda defesa. Os dois juntos
+      // porque o defeito que eles evitam — site publicado com conteúdo de antes
+      // da publicação que o disparou — não dá sinal nenhum quando acontece.
+      { next: { revalidate: 1 }, tag: SELO },
+    );
     // Conjunto vazio quase sempre significa configuração errada (projeto novo,
     // dataset trocado, peça nenhuma publicada) e não "a loja está sem peças".
     // Publicar uma vitrine vazia sem avisar seria o pior desfecho possível.
     if (cruas.length === 0) {
       throw new Error("a Sanity respondeu, mas não havia nenhuma peça publicada");
     }
+    // Este log existe para o dia em que o site publicar conteúdo velho de novo.
+    // Sem ele, a única forma de saber o que o build leu é comparar o site com o
+    // painel e adivinhar — foi assim que se perdeu uma noite.
+    const amostra = cruas
+      .slice(0, 3)
+      .map((p) => `${p.slug}=${p.preco}`)
+      .join(" ");
+    console.log(`[catálogo] ${cruas.length} peças lidas da Sanity. Amostra: ${amostra}`);
+
     return cruas.map(paraPeca);
   } catch (erro) {
     /**
