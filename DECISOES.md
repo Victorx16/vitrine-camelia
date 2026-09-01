@@ -415,6 +415,44 @@ As imagens foram recortadas em 3:4 (proporção de peça no cabide, e a que a do
 consegue repetir semana após semana), redimensionadas para 900×1200 e convertidas
 para WebP a 78 de qualidade — cerca de 63 KB cada, 1,4 MB no total.
 
+## 11b. A segunda foto, e por que não é vídeo
+
+**Vídeo foi cogitado e medido.** Um clipe de 11 segundos gravado no celular deu
+**20 MB** em 1080p e **13 MB** em 720p — baixar a resolução cortou 35% e custou
+metade dos pixels, o que mostra onde está o problema: é o codificador do
+aparelho, que grava a ~10 Mbps independentemente do que se peça. Para escala,
+13 MB é o peso de **216 fotos de peça**.
+
+A Sanity não converte vídeo: ela serve o arquivo como foi enviado. Então as
+únicas saídas eram entregar 13 MB para quem está no 4G (o celular costuma ter
+de baixar o arquivo inteiro antes do primeiro quadro) ou contratar um serviço
+de vídeo — e aí acaba o custo mensal zero.
+
+**A segunda foto responde a maior parte da mesma pergunta por 1/200 do peso**, e
+usa uma capacidade que já existia e ninguém estava usando: o cadastro sempre
+aceitou até quatro fotos, e a página de peça sempre mostrou todas, em coluna.
+
+**As segundas fotos aqui são recortes de detalhe da própria foto**, e isso é
+limitação do material de demonstração: as fotos são de banco, e não existe uma
+segunda foto da mesma peça. Numa loja real são fotos distintas — de frente, de
+costas, o detalhe do tecido, a peça vestida.
+
+**O recorte só funciona quando a foto original é de UMA peça.** Onde a foto é
+uma cena — uma arara, uma parede com bolsa e chapéu — o recorte devolve outra
+parte da cena, não um detalhe da peça. Por isso cinco peças continuam com uma
+foto só: foi julgamento visual numa folha de contato, não regra automática. Um
+catálogo em que toda peça tem exatamente duas fotos pareceria gerado; um em que
+algumas têm duas parece uma loja.
+
+**O script que subiu essas fotos NÃO é o importador.** `pnpm fotos` acrescenta
+ao fim da lista com `patch`/`insert`; o importador faz `createOrReplace` e
+desfaria qualquer edição feita no painel. Usar carga inicial para acrescentar
+uma imagem seria trocar o conteúdo de uma loja por causa de uma foto.
+
+**↔** A galeria em coluna e o "até quatro fotos" valem para qualquer vitrine. O
+recorte de detalhe é muleta de demonstração e não sobrevive a um cliente real,
+onde as fotos são feitas na loja.
+
 ## 12. Convenções herdadas do site do estúdio
 
 Next.js 16 com App Router, TypeScript, `output: "export"`, `images:

@@ -58,6 +58,10 @@ export const PECAS: Peca[] = [
         src: "/pecas/camisa-de-linho-gola-padre.webp",
         alt: "Camisa de linho cru com gola padre, aberta num cabide de madeira, contra parede clara.",
       },
+      {
+        src: "/pecas/camisa-de-linho-gola-padre-detalhe.webp",
+        alt: "Detalhe da frente da camisa: linho cru, gola padre e botões forrados.",
+      },
     ],
     preco: 139,
     categoria: "camisa",
@@ -89,7 +93,13 @@ export const PECAS: Peca[] = [
   {
     slug: "casaco-trench-com-cinto",
     nome: "Casaco trench com cinto",
-    fotos: [{ src: "/pecas/casaco-trench-com-cinto.webp" }],
+    fotos: [
+      { src: "/pecas/casaco-trench-com-cinto.webp" },
+      {
+        src: "/pecas/casaco-trench-com-cinto-detalhe.webp",
+        alt: "Detalhe do cinto do trench, com a laçada frouxa na cintura.",
+      },
+    ],
     preco: 259,
     categoria: "casaco",
     tamanhos: ["P", "M"],
@@ -104,7 +114,13 @@ export const PECAS: Peca[] = [
   {
     slug: "camisa-de-linho-oversized",
     nome: "Camisa de linho oversized",
-    fotos: [{ src: "/pecas/camisa-de-linho-oversized.webp" }],
+    fotos: [
+      { src: "/pecas/camisa-de-linho-oversized.webp" },
+      {
+        src: "/pecas/camisa-de-linho-oversized-detalhe.webp",
+        alt: "Detalhe da gola e do botão da camisa de linho cru.",
+      },
+    ],
     preco: 149,
     categoria: "camisa",
     tamanhos: ["P", "M", "G", "GG"],
@@ -118,7 +134,13 @@ export const PECAS: Peca[] = [
   {
     slug: "blazer-de-alfaiataria-areia",
     nome: "Blazer de alfaiataria areia",
-    fotos: [{ src: "/pecas/blazer-de-alfaiataria-areia.webp" }],
+    fotos: [
+      { src: "/pecas/blazer-de-alfaiataria-areia.webp" },
+      {
+        src: "/pecas/blazer-de-alfaiataria-areia-detalhe.webp",
+        alt: "Detalhe do ombro e da manga do blazer areia.",
+      },
+    ],
     preco: 229,
     categoria: "casaco",
     tamanhos: ["P", "M", "G"],
@@ -132,7 +154,13 @@ export const PECAS: Peca[] = [
   {
     slug: "trico-canelado-bicolor",
     nome: "Tricô canelado bicolor",
-    fotos: [{ src: "/pecas/trico-canelado-bicolor.webp" }],
+    fotos: [
+      { src: "/pecas/trico-canelado-bicolor.webp" },
+      {
+        src: "/pecas/trico-canelado-bicolor-detalhe.webp",
+        alt: "Detalhe do ponto canelado, com as faixas roxa e vermelha.",
+      },
+    ],
     preco: 159,
     categoria: "tricô",
     tamanhos: ["U"],
@@ -146,7 +174,13 @@ export const PECAS: Peca[] = [
   {
     slug: "vestido-camisa-de-algodao",
     nome: "Vestido camisa de algodão",
-    fotos: [{ src: "/pecas/vestido-camisa-de-algodao.webp" }],
+    fotos: [
+      { src: "/pecas/vestido-camisa-de-algodao.webp" },
+      {
+        src: "/pecas/vestido-camisa-de-algodao-detalhe.webp",
+        alt: "Detalhe do algodão e do bolso do vestido-camisa.",
+      },
+    ],
     preco: 189,
     categoria: "vestido",
     tamanhos: ["P", "M", "G"],
@@ -162,7 +196,13 @@ export const PECAS: Peca[] = [
   {
     slug: "blusa-de-trico-rosa",
     nome: "Blusa de tricô rosa",
-    fotos: [{ src: "/pecas/blusa-de-trico-rosa.webp" }],
+    fotos: [
+      { src: "/pecas/blusa-de-trico-rosa.webp" },
+      {
+        src: "/pecas/blusa-de-trico-rosa-detalhe.webp",
+        alt: "Detalhe do ponto da blusa de tricô rosa.",
+      },
+    ],
     preco: 89.9,
     categoria: "blusa",
     tamanhos: ["P", "M"],
@@ -189,7 +229,13 @@ export const PECAS: Peca[] = [
   {
     slug: "blazer-verde-agua",
     nome: "Blazer verde-água",
-    fotos: [{ src: "/pecas/blazer-verde-agua.webp" }],
+    fotos: [
+      { src: "/pecas/blazer-verde-agua.webp" },
+      {
+        src: "/pecas/blazer-verde-agua-detalhe.webp",
+        alt: "Detalhe da lapela e do bolso do blazer verde-água.",
+      },
+    ],
     preco: 219,
     categoria: "casaco",
     tamanhos: ["P", "M"],
@@ -232,7 +278,13 @@ export const PECAS: Peca[] = [
   {
     slug: "jaqueta-de-moletom-verde",
     nome: "Jaqueta de moletom verde",
-    fotos: [{ src: "/pecas/jaqueta-de-moletom-verde.webp" }],
+    fotos: [
+      { src: "/pecas/jaqueta-de-moletom-verde.webp" },
+      {
+        src: "/pecas/jaqueta-de-moletom-verde-detalhe.webp",
+        alt: "Detalhe do capuz e da gola da jaqueta de moletom.",
+      },
+    ],
     preco: 129,
     categoria: "casaco",
     tamanhos: ["P", "M", "G"],
@@ -249,7 +301,13 @@ export const PECAS: Peca[] = [
      */
     slug: "camisa-de-linho-com-jaqueta",
     nome: "Camisa de linho cru",
-    fotos: [{ src: "/pecas/camisa-de-linho-com-jaqueta.webp" }],
+    fotos: [
+      { src: "/pecas/camisa-de-linho-com-jaqueta.webp" },
+      {
+        src: "/pecas/camisa-de-linho-com-jaqueta-detalhe.webp",
+        alt: "Detalhe do caimento do linho sob a jaqueta.",
+      },
+    ],
     preco: 145,
     categoria: "camisa",
     tamanhos: ["P", "M", "G"],
@@ -264,7 +322,13 @@ export const PECAS: Peca[] = [
   {
     slug: "camisa-de-tricoline-branca",
     nome: "Camisa de tricoline branca",
-    fotos: [{ src: "/pecas/camisa-de-tricoline-branca.webp" }],
+    fotos: [
+      { src: "/pecas/camisa-de-tricoline-branca.webp" },
+      {
+        src: "/pecas/camisa-de-tricoline-branca-detalhe.webp",
+        alt: "Detalhe do ombro e da manga da tricoline branca.",
+      },
+    ],
     preco: 119,
     categoria: "camisa",
     tamanhos: ["P", "M", "G", "GG"],
