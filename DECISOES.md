@@ -476,6 +476,30 @@ aproveitam a mesma resposta, e entre um build e outro nunca sobra nada. As
 fotos continuam guardadas por um ano de propósito, porque a URL do CDN carrega
 o hash do arquivo — foto trocada é URL trocada.
 
+**O prazo de um segundo não bastou, e o segundo episódio foi pior.** Já no
+Cloudflare, o ciclo passou a publicar o conteúdo de ANTES da publicação que o
+disparou: webhook com 200, build concluído com sucesso, e o site sempre
+*exatamente uma publicação atrasado*. Medido três vezes, com o mesmo padrão.
+
+O que tornou isso caro de achar: **localmente não reproduz.** Só acontece na
+máquina de build, que restaura o `.next` do cache entre uma execução e outra. Na
+caça foram descartadas, por medição, três hipóteses erradas — o CDN da Sanity, o
+cache de borda do Cloudflare (uma resposta `MISS` devolveu o valor velho, o que
+prova que a origem é que estava velha) e propagação lenta do deploy.
+
+A correção é a única que não depende de entender a implementação de cache de
+ninguém: **um selo com a hora entra na URL da consulta como `?tag=`, e muda a
+cada processo de build.** A chave de qualquer cache de `fetch` é a URL; uma URL
+que nunca se repete não tem como devolver resposta guardada. O prazo de um
+segundo fica como segunda defesa.
+
+E entrou um `console.log` com a contagem e uma amostra do que veio da Sanity.
+Sem ele, a única maneira de saber o que o build leu é comparar o site com o
+painel e adivinhar — foi assim que se perdeu uma noite.
+
+**Medido depois da correção, três vezes: 60 a 62 segundos** entre publicar no
+painel e a mudança estar no ar.
+
 Vale registrar o erro de diagnóstico junto: a primeira hipótese foi o CDN da
 Sanity servindo cópia velha, e ela foi descartada por medição (`curl` no CDN e
 na API devolviam 18 os dois). A hipótese estava errada, mas o hábito de medir
