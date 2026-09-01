@@ -134,7 +134,7 @@ export default async function PaginaPeca({ params }: Props) {
 
           <div className="flex flex-col gap-3">
             <BotaoWhatsApp peca={peca} />
-            <BotaoSeparar peca={peca} className="self-start" />
+            <BotaoSeparar peca={peca} variante="botao" />
             {/* A frase que substitui o estoque. A vitrine nunca diz quanto
                 sobrou — diz onde a confirmação acontece. */}
             <p className="text-sepia max-w-[42ch] text-[0.8125rem] leading-relaxed">

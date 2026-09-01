@@ -16,8 +16,27 @@ import type { Peca } from "@/lib/tipos";
  * Peça esgotada não pode ser separada. Separar existe para montar uma pergunta
  * sobre o que dá para levar; uma peça que já foi entra na conversa por outro
  * caminho ("quero uma parecida"), que é uma conversa diferente.
+ *
+ * ------------------------------------------------------------------------
+ * Duas variantes, pelo mesmo motivo do botão do WhatsApp: o peso da ação muda
+ * com o lugar.
+ *
+ * Na arara ele divide a linha com o "quero esta peça" e os dois têm o mesmo
+ * peso — são irmãos. Na página da peça a ação principal é um botão cheio de
+ * largura inteira, e ao lado dele uma linha de texto cinza não lê como ação
+ * nenhuma: lê como legenda. Ali o separar ganha contorno, continua sem
+ * preenchimento, e a hierarquia volta a fazer sentido.
+ * ------------------------------------------------------------------------
  */
-export function BotaoSeparar({ peca, className }: { peca: Peca; className?: string }) {
+export function BotaoSeparar({
+  peca,
+  className,
+  variante = "texto",
+}: {
+  peca: Peca;
+  className?: string;
+  variante?: "botao" | "texto";
+}) {
   const atual = useSeparadas();
 
   if (peca.situacao === "esgotada") return null;
@@ -36,10 +55,20 @@ export function BotaoSeparar({ peca, className }: { peca: Peca; className?: stri
           : separar({ slug: peca.slug, nome: peca.nome, preco: peca.preco })
       }
       className={cn(
-        "inline-flex min-h-11 items-center text-[0.8125rem] underline-offset-4 transition-colors",
-        dentro
-          ? "text-musgo underline decoration-current"
-          : "text-sepia hover:text-tinta underline decoration-transparent hover:decoration-current",
+        "inline-flex min-h-11 items-center transition-colors",
+        variante === "botao"
+          ? [
+              "justify-center border px-6 text-[0.9375rem] font-semibold",
+              dentro
+                ? "border-musgo text-musgo"
+                : "border-tinta text-tinta hover:border-musgo hover:text-musgo",
+            ]
+          : [
+              "text-[0.8125rem] underline-offset-4",
+              dentro
+                ? "text-musgo underline decoration-current"
+                : "text-sepia hover:text-tinta underline decoration-transparent hover:decoration-current",
+            ],
         cheio && "cursor-not-allowed opacity-50",
         className,
       )}
