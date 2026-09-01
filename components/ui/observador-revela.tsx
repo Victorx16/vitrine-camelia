@@ -75,9 +75,21 @@ export function ObservadorRevela() {
           observador.unobserve(entrada.target);
         }
       },
-      // A margem negativa embaixo evita que a peça revele quando só a primeira
-      // fatia dela apareceu — a cascata fica sincronizada com o olho.
-      { rootMargin: "0px 0px -12% 0px", threshold: 0 },
+      /*
+       * A margem negativa embaixo decide ONDE a revelação acontece, e o número
+       * foi medido contra o olho de alguém.
+       *
+       * Com 12%, o elemento revelava quando mal tinha entrado na tela: a meio
+       * segundo de transição terminava na periferia, e quando o olho chegava
+       * nele já estava pronto. O relato foi literal — "tudo aparece pronto,
+       * nada teve movimento" — mesmo com o mecanismo funcionando (19 de 19
+       * revelados ao rolar até o fim).
+       *
+       * Com 22% a peça entra mais para dentro antes de começar, e o movimento
+       * acontece onde a pessoa está olhando. Mais que isso começa a mostrar
+       * espaço vazio em rolagem rápida, que é pior do que não animar.
+       */
+      { rootMargin: "0px 0px -22% 0px", threshold: 0 },
     );
 
     pendentes.forEach((alvo) => observador.observe(alvo));
