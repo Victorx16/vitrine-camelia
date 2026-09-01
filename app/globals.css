@@ -171,7 +171,25 @@
    rodar o conteúdo simplesmente aparece.
    ========================================================================== */
 
+/*
+ * Controle que só faz sentido com script.
+ *
+ * O filtro do catálogo é gerado no HTML como qualquer outra coisa, mas sem
+ * JavaScript ele seria um painel de botões que não fazem nada — pior do que
+ * não existir. Aqui ele nasce escondido e a consulta de mídia abaixo o mostra.
+ *
+ * O contrário (mostrar sempre e esconder por script) pisca um controle morto
+ * na cara de quem tem a rede ruim, justamente quem menos deveria esperar.
+ */
+[data-so-com-script] {
+  display: none;
+}
+
 @media (scripting: enabled) {
+  [data-so-com-script] {
+    display: flex;
+  }
+
   [data-revela] {
     opacity: 0;
     transform: translateY(10px);

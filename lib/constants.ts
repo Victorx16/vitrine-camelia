@@ -131,6 +131,25 @@ export const COPY = {
     vazio: "Nenhuma peça nesta categoria agora.",
   },
 
+  /**
+   * O filtro do catálogo.
+   *
+   * "Veste" e não "Tamanho": é o mesmo verbo do painel e o mesmo da ficha da
+   * peça. A palavra que ela usa no balcão atravessa o sistema inteiro, do
+   * formulário que ela preenche até o botão que a cliente aperta.
+   */
+  filtro: {
+    categoria: "Procurando",
+    tamanho: "Que veste",
+    buscar: "Buscar no catálogo",
+    buscarDica: "linho, preto, vestido…",
+    contaUma: " peça",
+    contaMuitas: " peças",
+    limpar: "Limpar",
+    vazio:
+      "Nada com esses filtros. Tire um deles — ou pergunte no WhatsApp: muita coisa da loja não chega a ser fotografada.",
+  },
+
   peca: {
     /** Rótulos da ficha. Vocabulário de loja, não de e-commerce. */
     grade: "Veste",

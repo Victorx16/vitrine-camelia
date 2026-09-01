@@ -603,6 +603,61 @@ GitHub Actions, são três caminhos — e nenhum foi construído ainda.
 para qualquer vitrine estática. O esquema em `studio/schemas/peca.ts` é de
 vestuário e não sobrevive a outro ramo — mas o formato dele, sim.
 
+## 13b. O filtro do catálogo
+
+**A decisão anterior era não ter filtro, e ela caiu.** Enquanto o catálogo era
+de trinta a sessenta peças, rolar era mais rápido do que escolher um critério, e
+filtro parecia ferramenta de inventário grande. Com cento e cinquenta deixa de
+ser: a visitante rola até desistir, e o site falha exatamente na única coisa que
+existe para fazer.
+
+**O filtro por tamanho é o que mais vale, e não é o mais óbvio.** "Tem no meu
+tamanho?" é uma das três perguntas que travam a venda, e é a única que o site
+consegue responder antes de a conversa começar. Categoria é conveniência; grade
+é resposta.
+
+**Só entra na lista o que tem peça agora.** As facetas são contadas em
+`lib/filtro.ts` a partir do catálogo do dia, nunca das listas fechadas de
+`lib/tipos.ts`. Um botão "Macacões" que devolve nada promete uma prateleira
+vazia e faz a loja parecer menor do que é.
+
+**Categoria ordena por quantidade; tamanho, nunca.** O que a loja mais tem
+aparece primeiro, e a ordem se reorganiza sozinha conforme o estoque muda de
+perfil. Grade tem ordem própria e fixa — "PP depois de G porque tem mais G"
+seria uma ordem que muda toda semana e que ninguém percorre com o olho.
+
+**O filtro não redesenha a lista.** As peças são geradas no build e ficam no
+HTML; o componente só acende e apaga `hidden` nelas. Passar as peças como
+propriedade escreveria o catálogo duas vezes dentro do HTML e jogaria fora a
+foto já carregada a cada mudança. Com cento e cinquenta peças isso deixa de ser
+detalhe.
+
+**Sem JavaScript os controles não aparecem** (`[data-so-com-script]` em
+globals.css) e o catálogo inteiro fica visível. Mesma escolha da revelação por
+rolagem: o conteúdo nasce visível, e o script só tira coisa da frente. Mostrar
+sempre e desligar por script piscaria um painel de botões mortos justamente
+para quem tem a rede pior.
+
+**A seleção vai para o endereço, e esse é o ponto.** Uma escolha vira link, e
+link vira mensagem de WhatsApp: a dona manda "os vestidos que servem em você"
+sem montar nada. O filtro deixa de ser ferramenta de quem visita e vira
+ferramenta de quem vende.
+
+**A categoria viaja no endereço sem acento** (`tricos`, não `tricô`). Descoberto
+testando: o mesmo "ô" chega como um caractere ou como dois dependendo do
+aparelho que copiou o link, e o filtro simplesmente não aplicava — sem erro, sem
+aviso, a página inteira aparecendo como se ninguém tivesse escolhido nada. A
+leitura aceita as duas formas, porque link é coisa que se edita no meio da
+conversa.
+
+**O custo, medido:** o bloco de filtros ocupa 243px e empurra a primeira peça
+para 1,01 tela no celular. Quem domina essa altura é o cabeçalho da página, não
+o filtro.
+
+**↔** Filtro por grade de tamanho é de vestuário. O que sobrevive a outro ramo é
+o mecanismo: facetas contadas do catálogo do dia, seleção no endereço, e
+filtragem por atributo no HTML já gerado.
+
 ## 14. Busca e compartilhamento
 
 **O site é indexável, e a decisão merece explicação** porque a loja é fictícia.
