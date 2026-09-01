@@ -1,0 +1,32 @@
+{
+  // Publicação no Cloudflare Workers.
+  //
+  // A Cloudflare unificou Pages e Workers: criar um projeto novo pelo Git cai
+  // no fluxo de Workers, que roda `npx wrangler deploy` e precisa deste arquivo
+  // para saber o que publicar. Sem ele, o deploy sobe o "olá mundo" padrão e o
+  // endereço responde `Hello world` em toda rota — construído, publicado e
+  // completamente vazio, sem erro nenhum. Aconteceu.
+  //
+  // Este Worker não tem código: não existe "main". Ele só serve os arquivos de
+  // out/, que é o que um site exportado estático é.
+  //
+  // O irmão deste arquivo é o netlify.toml. O site publica nas duas
+  // hospedagens sem edição, e os cabeçalhos vivem em public/_headers, lido
+  // pelas duas.
+  "name": "vitrine-camelia",
+  "compatibility_date": "2025-01-01",
+
+  "assets": {
+    "directory": "./out",
+
+    // O export do Next gera `pecas/<slug>.html` para a página e a pasta
+    // `pecas/<slug>/` para o cartão de compartilhamento — mesmo nome, coisas
+    // diferentes. Com "auto-trailing-slash", `/pecas/vestido` acha o .html e
+    // `/pecas/vestido/opengraph-image` acha o arquivo dentro da pasta.
+    "html_handling": "auto-trailing-slash",
+
+    // Endereço que não existe cai na 404 do próprio site, em português e com a
+    // identidade da loja, em vez da página branca da Cloudflare.
+    "not_found_handling": "404-page"
+  }
+}
