@@ -554,6 +554,51 @@ que o campo é; explicam a REGRA ("os tamanhos em que esta peça existe, NÃO
 quantas você tem"). É o único lugar onde as regras de produto chegam a quem
 preenche.
 
+### O plano gratuito da Sanity cobre o projeto inteiro
+
+Lido no comparativo de planos em 01/09/2026, com o uso medido ao lado:
+
+| item | Free | nosso uso |
+| --- | --- | --- |
+| **GROQ-powered webhooks** | **2** | **1** |
+| Documentos | 10.000 | ~60 hoje; ~450 com 150 peças |
+| **Banda por mês** | **100 GB** | 723 KB por visita à home (medido) |
+| Assets | 100 GB | ~40 MB |
+| Requisições de API | 250 mil/mês | 1 por build |
+| Assentos | 20 | 2 |
+
+O webhook estar no gratuito era a dúvida que mais importava: se fosse pago, o
+ciclo morreria sozinho ao fim do teste de 30 dias, e o sintoma seria o mesmo
+silêncio de sempre.
+
+**A banda dá ~141 mil visitas por mês**, ou 4.700 por dia. Uma boutique de
+bairro vinda do Instagram faz duas ordens de grandeza menos.
+
+**Com isto, o custo mensal de uma loja real é o domínio.** Cloudflare US$ 0,
+Sanity US$ 0. Todos os números vêm das telas dos próprios fornecedores; a banda
+por visita foi medida no site publicado.
+
+### Quatro coisas que o gratuito impõe
+
+1. **Só existem dois papéis: Administrador e Visualizador.** Não há "Editor".
+   Para publicar, a dona precisa ser Administradora — e portanto pode também
+   apagar peças e mudar configurações. Aceitável no projeto dela; inaceitável
+   num projeto compartilhado. **Cada cliente precisa do próprio projeto na
+   Sanity.**
+2. **Não há backup, e o histórico de rascunho é de 3 dias.** Apagar quarenta
+   peças sem querer não tem desfazer. É risco de entrega, não detalhe: um
+   script de exportação periódica deve existir antes de qualquer entrega real.
+3. **O dataset é público** — leitura sem token, rascunhos incluídos. Para uma
+   vitrine, tudo o que está lá já está no site; fica registrado como aceitação
+   deliberada, não como descuido.
+4. O texto do plano fala em *"individuals experimenting or shipping smaller
+   projects"*. Os limites técnicos cobrem com folga; a leitura comercial é o
+   que não foi conferido — mesmo caso do Cloudflare.
+
+**Terceira opção para o build agendado:** o gratuito inclui 5 Scheduled
+Functions com frequência diária. Somadas ao Cron Trigger do Cloudflare e ao
+GitHub Actions, são três caminhos — e nenhum foi construído ainda.
+
 **↔** A arquitetura (Studio hospedado + webhook + build + fallback local) vale
 para qualquer vitrine estática. O esquema em `studio/schemas/peca.ts` é de
 vestuário e não sobrevive a outro ramo — mas o formato dele, sim.
@@ -617,6 +662,13 @@ Em 31/08/2026 o ciclo inteiro está no ar e foi verificado de ponta a ponta:
 publicar uma peça no painel dispara o build e a mudança aparece no site. As 18
 peças da Sanity conferem uma a uma com o que o site publicado mostra.
 
+- **Um backup do conteúdo.** O plano gratuito da Sanity não faz backup e guarda
+  rascunho por 3 dias. Para a demonstração não importa; **antes de entregar a
+  qualquer cliente, importa muito** — um `sanity dataset export` periódico é o
+  mínimo.
+- **O build agendado no Cloudflare.** A função em `netlify/functions/` é da
+  Netlify. Enquanto não houver equivalente, as datas só vencem quando alguém
+  publica.
 - **A contagem de visita.** O `NEXT_PUBLIC_CF_BEACON_TOKEN` está vazio, então o
   contador não é escrito no HTML. A medição principal — a mensagem do WhatsApp
   com o nome da peça — funciona desde o primeiro dia.
