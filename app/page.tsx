@@ -34,7 +34,7 @@ export default async function Home() {
               <Rotulo as="h2" className="shrink-0">
                 A vitrine
               </Rotulo>
-              <span aria-hidden="true" className="bg-fio h-px flex-1" />
+              <span aria-hidden="true" data-revela="" data-fio="" className="bg-fio h-px flex-1" />
               <Rotulo className="tnum shrink-0">
                 {fixadas.length} peças
               </Rotulo>

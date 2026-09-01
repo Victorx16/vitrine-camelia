@@ -203,6 +203,59 @@
     transform: none;
   }
 
+  /*
+   * O fio é instalado antes de a peça pendurar nele.
+   *
+   * A estrutura inteira deste site pendura de filetes de 1px — é assim que uma
+   * arara funciona, e é a decisão que impede a página de virar grade de
+   * caixinhas. Fazer esse filete SER DESENHADO quando a seção entra é a única
+   * animação daqui que sai do assunto em vez de sair de uma biblioteca: o
+   * trilho é montado, depois as peças aparecem nele.
+   *
+   * `scaleX` e não `width`: transformação não recalcula layout, e o filete
+   * ocupa o espaço final desde o começo — a linha cresce sem empurrar o rótulo
+   * da direita.
+   *
+   * Ele cancela a revelação genérica de propósito: um fio de 1px subindo 10px
+   * com opacidade é invisível como gesto e visível como tremor.
+   */
+  /*
+   * Quem encolhe é uma camada interna, nunca o próprio filete.
+   *
+   * A primeira versão punha `scaleX(0)` no elemento, e ele parou de ser
+   * revelado: **um elemento com área zero nunca dispara o IntersectionObserver.**
+   * O fio ficava invisível esperando um aviso que não chegava — o mesmo feitio
+   * de defeito de sempre, sem erro em lugar nenhum.
+   *
+   * Com a máscara no `::after`, o elemento mantém a largura inteira e continua
+   * sendo visto pelo observador; quem cresce é a pintura dentro dele.
+   */
+  [data-revela][data-fio] {
+    opacity: 1;
+    transform: none;
+    position: relative;
+    /* A cor passa para a camada de dentro. A classe `bg-fio` do JSX continua
+       valendo fora desta consulta de mídia — é o que desenha o fio inteiro
+       quando não há script. */
+    background: transparent;
+  }
+
+  [data-revela][data-fio]::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--color-fio);
+    transform: scaleX(0);
+    transform-origin: left center;
+    /* Mais lento que a peça (0,5s) para o trilho terminar de ser montado
+       enquanto a primeira peça ainda está entrando. */
+    transition: transform 0.7s var(--ease-vitrine);
+  }
+
+  [data-revela][data-fio][data-revelado]::after {
+    transform: scaleX(1);
+  }
+
   /* Peças da mesma arara entram em cascata curta. O atraso é por índice, posto
      em estilo em linha pelo componente — 45ms é o bastante para ler como
      sequência sem virar espera. */
@@ -212,8 +265,16 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* Vale para o fio também: `transform: none` desfaz o scaleX(0), então o
+     filete nasce inteiro em vez de nunca aparecer. */
   [data-revela] {
     opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  /* O fio pinta numa camada de dentro, e ela precisa nascer inteira também. */
+  [data-revela][data-fio]::after {
     transform: none !important;
     transition: none !important;
   }

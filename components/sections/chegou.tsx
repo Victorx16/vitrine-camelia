@@ -52,7 +52,7 @@ export function Chegou({ trilhos }: ChegouProps) {
                   Entrou{" "}
                   <time dateTime={trilho.data}>{diaEMes(trilho.data)}</time>
                 </Rotulo>
-                <span aria-hidden="true" className="bg-fio h-px flex-1" />
+                <span aria-hidden="true" data-revela="" data-fio="" className="bg-fio h-px flex-1" />
                 <Rotulo className="tnum shrink-0">
                   {trilho.pecas.length}{" "}
                   {trilho.pecas.length === 1 ? "peça" : "peças"}

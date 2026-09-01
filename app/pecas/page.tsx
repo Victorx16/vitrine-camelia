@@ -53,7 +53,7 @@ export default async function Pecas() {
 
         <div className="border-tinta flex items-baseline gap-4 border-b pb-2">
           <Rotulo className="shrink-0">Na loja hoje</Rotulo>
-          <span aria-hidden="true" className="bg-fio h-px flex-1" />
+          <span aria-hidden="true" data-revela="" data-fio="" className="bg-fio h-px flex-1" />
           <Rotulo className="tnum shrink-0">{pecas.length} peças</Rotulo>
         </div>
 
