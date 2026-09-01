@@ -116,7 +116,7 @@ essa semana. Site estático não tem relógio depois de publicado.
    gratuito da Netlify tem 300 minutos de build por mês, e uma tarde de
    cadastro consumiria o mês inteiro. Com o filtro, só publicar dispara.
 
-### 2b. Publicação alternativa (Cloudflare Pages)
+### 2b. Publicação alternativa (Cloudflare)
 
 O site publica nas duas hospedagens sem edição nenhuma: `netlify.toml` e
 `public/_headers` são espelhos um do outro. **Mudou um, muda o outro** —
@@ -124,8 +124,14 @@ cabeçalho de segurança que só existe em um dos dois dá a falsa impressão de
 proteção conforme a hospedagem do dia.
 
 Por que a alternativa existe: o gratuito da Netlify dá ~20 deploys por mês
-(ver §3 do DECISOES.md) e o do Cloudflare Pages dá 500. Quando o crédito da
-Netlify acaba no meio do ciclo, o site inteiro se muda numa tarde.
+(medido — ver §3 do DECISOES.md), e isso acabou no meio de um ciclo com uma
+alteração já publicada e presa fora do ar. Ter as duas configurações prontas
+significa que o site inteiro se muda numa tarde.
+
+**O limite gratuito do Cloudflare não foi medido.** É bem mais folgado que o da
+Netlify, mas o número exato sai da mesma conta: dividir os créditos gastos pelo
+número de deploys do ciclo, no painel deles. Não repita número que você não
+conferiu.
 
 **Não procure "Pages".** A Cloudflare unificou os dois produtos: criar projeto
 novo pelo Git cai no fluxo de **Workers**, que roda `npx wrangler deploy`. É por
