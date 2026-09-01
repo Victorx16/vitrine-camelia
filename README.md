@@ -127,13 +127,21 @@ Por que a alternativa existe: o gratuito da Netlify dá ~20 deploys por mês
 (ver §3 do DECISOES.md) e o do Cloudflare Pages dá 500. Quando o crédito da
 Netlify acaba no meio do ciclo, o site inteiro se muda numa tarde.
 
-1. **Workers & Pages → Create → Pages → Connect to Git**, escolha o
-   repositório.
-2. Framework preset: **None**. Build command `pnpm build`, output directory
-   `out`. A versão do Node vem do `.node-version`.
-3. Variáveis de ambiente: as mesmas `NEXT_PUBLIC_SANITY_PROJECT_ID` e
+**Não procure "Pages".** A Cloudflare unificou os dois produtos: criar projeto
+novo pelo Git cai no fluxo de **Workers**, que roda `npx wrangler deploy`. É por
+isso que existe `wrangler.jsonc` na raiz — sem ele o deploy sobe o "olá mundo"
+padrão e o endereço responde `Hello world` em toda rota, construído e vazio, sem
+erro nenhum.
+
+1. **Workers & Pages → Create → Connect to Git**, escolha o repositório.
+2. Build command `pnpm run build`; deploy command `npx wrangler deploy` (o que
+   ele já sugere). O que publicar vem do `wrangler.jsonc`, não desta tela; a
+   versão do Node vem do `.node-version`.
+3. Variáveis: as mesmas `NEXT_PUBLIC_SANITY_PROJECT_ID` e
    `NEXT_PUBLIC_SANITY_DATASET`.
-4. Depois do primeiro deploy, em **Settings → Builds → Deploy hooks**, crie um
+4. O endereço nasce desligado: **Settings → Domains & Routes → workers.dev →
+   Enable**.
+5. Depois do primeiro deploy, em **Settings → Builds → Deploy hooks**, crie um
    hook e aponte o webhook da Sanity para ele.
 
 **O que NÃO vem junto: o build agendado.** A função em `netlify/functions/` é
