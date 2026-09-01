@@ -15,6 +15,11 @@ function link(mensagem: string) {
   return `https://wa.me/${LOJA.whatsapp}?text=${encodeURIComponent(mensagem)}`;
 }
 
+/** O endereço da peça, absoluto. Vai dentro da mensagem, para ser clicável. */
+function enderecoDaPeca(peca: Peca) {
+  return `${LOJA.url}/pecas/${peca.slug}`;
+}
+
 /**
  * As duas mensagens são construídas SEM artigo antes do nome da peça.
  *
@@ -25,16 +30,40 @@ function link(mensagem: string) {
  * "site automático" — então a frase foi escrita para não precisar de artigo.
  * Vale para qualquer catálogo: numa adega o problema seria "no Vinho" / "na
  * Cerveja".
+ *
+ * ------------------------------------------------------------------------
+ * **O endereço da peça vai junto, em linha própria.** Três motivos, e o
+ * terceiro só apareceu ao descobrir que a loja usa uma assistente de IA da Meta
+ * atendendo antes da dona:
+ *
+ * 1. A dona abre a peça exata enquanto responde, em vez de procurar pelo nome
+ *    num catálogo de cento e cinquenta.
+ * 2. A cliente encaminha a conversa para uma amiga e a peça vai junto — hoje
+ *    ela teria de descrever de novo.
+ * 3. A assistente que responde primeiro não conhece o catálogo. Com o endereço
+ *    na mensagem, ela tem para onde apontar em vez de adivinhar preço — e
+ *    preço divergente entre o site e o WhatsApp da mesma loja destrói confiança
+ *    mais rápido do que qualquer coisa que o site construa.
+ *
+ * Linha própria porque o WhatsApp só transforma em link o que consegue separar
+ * do texto; grudado numa frase, com ponto final logo depois, o endereço vira
+ * texto morto em alguns aparelhos.
+ * ------------------------------------------------------------------------
  */
 export function mensagemPeca(peca: Peca) {
   if (peca.situacao === "esgotada") {
     return link(
-      `Oi! Vi que esta peça já saiu do site: ${peca.nome}. Você tem alguma parecida?`,
+      `Oi! Vi que esta peça já saiu do site: ${peca.nome}. Você tem alguma parecida?` +
+        `\n${enderecoDaPeca(peca)}`,
     );
   }
 
+  // "Vi no site" saiu: o endereço logo abaixo já diz de onde veio, e repetir a
+  // origem em duas formas é o tipo de gordura que faz uma mensagem pré-escrita
+  // parecer escrita por máquina.
   return link(
-    `Oi! Tenho interesse nesta peça: ${peca.nome}, ${preco(peca.preco)}. Vi no site.`,
+    `Oi! Tenho interesse nesta peça: ${peca.nome}, ${preco(peca.preco)}.` +
+      `\n${enderecoDaPeca(peca)}`,
   );
 }
 

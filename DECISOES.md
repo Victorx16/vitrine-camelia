@@ -301,6 +301,31 @@ site."*
 Vinho" / "na Cerveja". **Este é o candidato mais óbvio a virar utilitário
 compartilhado quando o segundo projeto existir.**
 
+### O endereço da peça vai na mensagem
+
+Descoberto na prospecção: o WhatsApp da loja tem uma **assistente de IA da Meta**
+atendendo antes da dona. Ela usa o nome de quem escreve, entende a mensagem e
+repassa para um humano — não é árvore de menu, e por isso não atropela a
+conversa que o site inicia.
+
+**O que ela não tem é o catálogo.** Perguntada sobre uma peça, ou desvia ou
+inventa. Preço divergente entre o site e o WhatsApp da mesma loja destrói
+confiança mais rápido do que qualquer coisa que o site construa.
+
+Com o endereço dentro da mensagem, a assistente tem para onde apontar em vez de
+adivinhar. E vêm dois ganhos que valeriam sozinhos: a dona abre a peça exata
+enquanto responde, em vez de procurar pelo nome num catálogo de cento e
+cinquenta; e a cliente encaminha a conversa para uma amiga com a peça junto.
+
+Em linha própria, porque o WhatsApp só transforma em link o que consegue
+separar do texto. E o "Vi no site." saiu: o endereço logo abaixo já diz de onde
+veio, e repetir a origem em duas formas é a gordura que faz mensagem
+pré-escrita parecer escrita por máquina.
+
+**↔** A divisão de camadas vale para qualquer loja com atendimento
+automatizado: a assistente responde saudação e horário, o site responde o que
+tem e quanto custa, a dona responde o que só ela sabe.
+
 ## 7. Medição
 
 Duas camadas, e a ordem entre elas importa.
